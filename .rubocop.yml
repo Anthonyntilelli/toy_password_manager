@@ -1,9 +1,9 @@
+require: rubocop-rails
+
 AllCops:
   Exclude:
   - db/schema.rb
 
-Layout/LineLength:
-  Max: 115
 Style/HashEachMethods:
   Enabled: true
 Style/HashTransformKeys:
@@ -12,5 +12,3 @@ Style/HashTransformValues:
   Enabled: true
 Lint/SuppressedException:
   AllowComments: true
-Metrics/ClassLength:
-  Max: 140
