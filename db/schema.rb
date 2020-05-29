@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_05_29_030127) do
 
   create_table "users", force: :cascade do |t|
+    t.text "name", null: false
     t.text "email", null: false
     t.string "password_digest", null: false
     t.string "reset_token_digest"
