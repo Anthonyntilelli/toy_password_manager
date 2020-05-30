@@ -18,8 +18,5 @@ module ToyPasswordManager
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-
-    # Add filter for reset token
-    config.filter_parameters += [:reset_token_digest]
   end
 end

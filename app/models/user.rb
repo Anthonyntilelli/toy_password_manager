@@ -1,9 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
-  has_secure_password :reset_token, validations: false
 
-  # TODO: prevent reset_token manual setting
-
+  before_validation :strip_name, on: [ :create, :update ]
 
   validates :name,
             presence: true,
@@ -26,15 +24,6 @@ class User < ApplicationRecord
 
   after_validation :normalize_enties
 
-
-  # securlty generates and returns reset token
-  def generate_reset_token
-    # TODO Implement expiration system
-    self.reset_token = SecureRandom.urlsafe_base64
-  end
-
-  # TODO: expand `authenticate_reset_token` method to consider expiration and wipe reset token when used.
-
   private
 
   def email_not_password
@@ -42,7 +31,11 @@ class User < ApplicationRecord
   end
 
   def normalize_enties
-    self.name = name.titleize
-    self. email = email.capitalize
+    self.name = name.downcase.titleize
+    self.email = email.capitalize
+  end
+
+  def strip_name
+    self.name = self.name.strip
   end
 end
