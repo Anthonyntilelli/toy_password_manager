@@ -4,10 +4,10 @@ Specs:
 - [x] Using Ruby on Rails for the project
 - [x] Include at least one has_many relationship (x has_many y; e.g. User has_many Recipes)
    - User has_many Membership
-   - Group has_many Membership
+   - Keychain has_many Membership, accounts
 - [x] Include at least one belongs_to relationship (x belongs_to y; e.g. Post belongs_to User)
-   - Accounts belongs_to Group
-   - Membership belongs_to Group,User
+   - Accounts belongs_to keychain
+   - Membership belongs_to Keychain,User
 - [x] Include at least two has_many through relationships (x has_many y through z; e.g. Recipe has_many Items through Ingredients)
    - User has_many ketychains throught membership
    - keychains has_many users thougth membership

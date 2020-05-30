@@ -1,5 +1,6 @@
 class Keychain < ApplicationRecord
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
+  has_many :accounts, dependent: :destroy
   has_many :users, through: :memberships
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 200 }
@@ -15,5 +16,4 @@ class Keychain < ApplicationRecord
     self.name = name.downcase.titleize
   end
 
-  # TODO: Destroy mechanism
 end
