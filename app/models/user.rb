@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :memberships
+  has_many :keychains, through: :memberships
+
   has_secure_password
 
   before_validation :strip_name, on: %i[create update]
@@ -38,4 +41,7 @@ class User < ApplicationRecord
   def strip_name
     self.name = name.strip
   end
+
+
+ # TODO: Destroy mechanism
 end

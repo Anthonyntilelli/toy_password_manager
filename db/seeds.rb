@@ -3,9 +3,9 @@
 # Also Test normalize
 
 Account.destroy_all
-Member.destroy_all
+Membership.destroy_all
 User.destroy_all
-Group.destroy_all
+Keychain.destroy_all
 
 # Users
 puts 'User 1'
@@ -69,45 +69,45 @@ User.create!(name: 'BETTY potteR', email: 'BETTY.potteR@example.com', email_conf
 puts 'User 30'
 User.create!(name: 'HELEN Smith', email: 'HELEN.Smith@fakegoogle.net', email_confirmation: 'HELEN.Smith@fakegoogle.net', password: 'password123', password_confirmation: 'password123')
 
-# Groups
-puts 'Group 1'
-Group.create!(name: 'Epic Group', personal: false)
-puts 'Group 2'
-Group.create!(name: 'Group 2', personal: false)
-puts 'Group 3'
-Group.create!(name: 'Group 3', personal: false)
-puts 'Group 4'
-Group.create!(name: 'Group 4', personal: false)
-puts 'Group 5'
-Group.create!(name: 'group 5', personal: false)
-puts 'Group 6'
-Group.create!(name: 'BAHHHHH!', personal: false)
-puts 'Group 7'
-Group.create!(name: 'Secret', personal: false)
-puts 'Group 8'
-Group.create!(name: 'Learn.co', personal: false)
-puts 'Group 9'
-Group.create!(name: 'Flatiron', personal: false)
-puts 'Group 10'
-Group.create!(name: 'example', personal: false)
+# Keychain
+puts 'Keychain 1'
+Keychain.create!(name: 'Epic Keychain', personal: false)
+puts 'Keychain 2'
+Keychain.create!(name: 'Keychain 2', personal: false)
+puts 'Keychain 3'
+Keychain.create!(name: 'Keychain 3', personal: false)
+puts 'Keychain 4'
+Keychain.create!(name: 'Keychain 4', personal: false)
+puts 'Keychain 5'
+Keychain.create!(name: 'Keychain 5', personal: false)
+puts 'Keychain 6'
+Keychain.create!(name: 'BAHHHHH!', personal: false)
+puts 'Keychain 7'
+Keychain.create!(name: 'Secret', personal: false)
+puts 'Keychain 8'
+Keychain.create!(name: 'Learn.co', personal: false)
+puts 'Keychain 9'
+Keychain.create!(name: 'Flatiron', personal: false)
+puts 'Keychain 10'
+Keychain.create!(name: 'example', personal: false)
 
-# Member
-Group.all.each do |group|
-  puts "Setting Membership for #{group.name}"
+# Membership
+Keychain.all.each do |kc|
+  puts "Setting Membership for #{kc.name}"
   user_pool = User.all.shuffle
-  Member.create!(user: user_pool[0], group: group, admin: true, invite_status: 'accepted')
-  Member.create!(user: user_pool[1], group: group, admin: true, invite_status: 'declined')
-  Member.create!(user: user_pool[2], group: group, admin: false, invite_status: 'accepted')
-  Member.create!(user: user_pool[3], group: group, admin: false, invite_status: 'pending')
-  Member.create!(user: user_pool[4], group: group, admin: false, invite_status: 'declined')
+  Membership.create!(user: user_pool[0], keychain: kc, admin: true, invite_status: 'accepted')
+  Membership.create!(user: user_pool[1], keychain: kc, admin: true, invite_status: 'declined')
+  Membership.create!(user: user_pool[2], keychain: kc, admin: false, invite_status: 'accepted')
+  Membership.create!(user: user_pool[3], keychain: kc, admin: false, invite_status: 'pending')
+  Membership.create!(user: user_pool[4], keychain: kc, admin: false, invite_status: 'declined')
 end
 
 # Accounts
-Group.all.each do |group|
-  puts "Setting up accounts for #{group.name}"
-  Account.create!(name: "#{group.name}-account-1", group: Group.first, url: "www.example.com")
-  Account.create!(name: "#{group.name}-account-2", group: Group.first, username: "Bill")
-  Account.create!(name: "#{group.name}-account-3", group: Group.first, password: "password" )
-  Account.create!(name: "#{group.name}-account-4", group: Group.first, url: "www.example4.com" )
-  Account.create!(name: "#{group.name}-account-5", group: Group.first, url: "www.example4.com" )
+Keychain.all.each do |kc|
+  puts "Setting up accounts for #{kc.name}"
+  Account.create!(name: "#{kc.name}-account-1", keychain: kc, url: "www.example.com")
+  Account.create!(name: "#{kc.name}-account-2", keychain: kc, username: "Bill")
+  Account.create!(name: "#{kc.name}-account-3", keychain: kc, password: "password" )
+  Account.create!(name: "#{kc.name}-account-4", keychain: kc, url: "www.example4.com" )
+  Account.create!(name: "#{kc.name}-account-5", keychain: kc, url: "www.example4.com" )
 end

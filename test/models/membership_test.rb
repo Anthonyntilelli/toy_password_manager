@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class MemberTest < ActiveSupport::TestCase
+class membershipTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
