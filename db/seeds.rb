@@ -2,6 +2,7 @@
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 # Also Test normalize
 
+Member.destroy_all
 User.destroy_all
 Group.destroy_all
 
@@ -68,7 +69,6 @@ puts "User 30"
 User.create!(name: "HELEN Smith",  email: "HELEN.Smith@fakegoogle.net", email_confirmation: "HELEN.Smith@fakegoogle.net", password: "password123", password_confirmation: "password123")
 
 # Groups
-
 puts "Group 1"
 Group.create!(name: "Epic Group", personal: false)
 puts "Group 2"
@@ -89,3 +89,15 @@ puts "Group 9"
 Group.create!(name: "Flatiron", personal: false)
 puts "Group 10"
 Group.create!(name: "example", personal: false)
+
+# Member
+group_pool = Group.all.shuffle
+group_pool.each do |group|
+  puts "Setting Membership for #{group.name}"
+  user_pool = User.all.shuffle
+  Member.create!(user: user_pool[0], group: group, admin: true, invite_status: "accepted")
+  Member.create!(user: user_pool[1], group: group, admin: true, invite_status: "declined")
+  Member.create!(user: user_pool[2], group: group, admin: false, invite_status: "accepted")
+  Member.create!(user: user_pool[3], group: group, admin: false, invite_status: "pending")
+  Member.create!(user: user_pool[4], group: group, admin: false, invite_status: "declined")
+end
