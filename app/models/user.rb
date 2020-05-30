@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
 
-  before_validation :strip_name, on: [ :create, :update ]
+  before_validation :strip_name, on: %i[create update]
 
   validates :name,
             presence: true,
@@ -36,6 +36,6 @@ class User < ApplicationRecord
   end
 
   def strip_name
-    self.name = self.name.strip
+    self.name = name.strip
   end
 end
