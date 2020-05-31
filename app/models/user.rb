@@ -42,6 +42,5 @@ class User < ApplicationRecord
     self.name = name.strip
   end
 
-
- # TODO: Destroy mechanism
+  # TODO: Destroy mechanism
 end
