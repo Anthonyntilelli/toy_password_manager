@@ -1,0 +1,9 @@
+<h2>Log in</h2>
+
+<%= form_tag ({controller: 'session', action: 'create', method: 'post'}) do %>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="auth[email]" placeholder="user@example.com" required><br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="auth[password]" minlength="8" required>
+  <input type="submit" value='login'>
+<% end %>

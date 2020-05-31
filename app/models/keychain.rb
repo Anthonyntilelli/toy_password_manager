@@ -15,5 +15,4 @@ class Keychain < ApplicationRecord
   def normalize_name
     self.name = name.downcase.titleize
   end
-
 end
