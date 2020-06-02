@@ -9,7 +9,7 @@ class User < ApplicationRecord
   validates :name,
             presence: true,
             format: { with: /[A-Za-z]+\s[A-Za-z]+/,
-                      message: 'Must be First and Last name' }
+                      message: 'must be First and Last name' }
   validates :email,
             presence: true,
             uniqueness: { case_sensitive: false },
