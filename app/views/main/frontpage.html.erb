@@ -1,9 +1,12 @@
 <h2>Welcome to Toy Password Manager</h2>
 <p>Find me in app/views/main/frontpage.html.erb</p>
 
+
 <% if logged_in? %>
   <%= "logged in as: #{get_user&.email}"%>
   <%= form_tag ({controller: 'session', action: 'destroy', method: 'post'}) do %>
     <input type="submit" value='logout'>
   <% end %>
 <%end%>
+
+<%= link_to 'Button Example', "/", class: "btn btn-primary btn-sm" %>

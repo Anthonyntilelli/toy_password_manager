@@ -6,32 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
     <%if flash[:notice]%>
       <% flash[:notice].each do |msg| %>
-        <div class="alert alert-info">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
           <%= msg %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       <%end%>
     <% end %>
-
     <%if flash[:alert]%>
       <% flash[:alert].each do |msg| %>
-        <div class="alert alert-info">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
           <%= msg %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       <%end%>
     <% end %>
 
-
     <%= yield %>
-
-
-    <%= link_to 'Button Example', "/", :class => "btn btn-primary btn-sm" %>
 
     <!-- bootstrap JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
