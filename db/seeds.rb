@@ -95,11 +95,12 @@ Keychain.create!(name: 'example', personal: false)
 Keychain.all.each do |kc|
   puts "Setting Membership for #{kc.name}"
   user_pool = User.all.shuffle
-  Membership.create!(user: user_pool[0], keychain: kc, admin: true, invite_status: 'accepted')
-  Membership.create!(user: user_pool[1], keychain: kc, admin: true, invite_status: 'declined')
-  Membership.create!(user: user_pool[2], keychain: kc, admin: false, invite_status: 'accepted')
-  Membership.create!(user: user_pool[3], keychain: kc, admin: false, invite_status: 'pending')
-  Membership.create!(user: user_pool[4], keychain: kc, admin: false, invite_status: 'declined')
+  kc.invite(user_pool[0], true).accept
+  kc.invite(user_pool[1], true).decline
+  kc.invite(user_pool[2], false).accept
+  kc.invite(user_pool[3], false) # pending (standard)
+  kc.invite(user_pool[4], true) # pending (Admin)
+  kc.invite(user_pool[5], false).decline
 end
 
 # Accounts
