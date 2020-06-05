@@ -1,16 +1,53 @@
-<h1>User#edit</h1>
-<p>Find me in app/views/user/edit.html.erb</p>
+<main class="container">
+  <div class='row mb-3'>
+      <h2 class="col-12 display-3 text-center">Edit your Account</h2>
+  </div>
 
-<h3> Edit Password</h3>
-<%= form_for @user, url: {action: "update"} do |form| %>
-  <%= form.label :current_password %>
-  <%= form.password_field :current_password, required: true %> <br>
-  <%= form.label :password %>
-  <%= form.password_field :password, required: true %> <br>
-  <%= form.label :password_confirmation %>
-  <%= form.password_field :password_confirmation, required: true %><br>
-  <%= form.submit "Change My Password" %>
-<% end %>
+  <div class='row mb-1'>
+    <h3 class=" col-12">Change Name</h3>
+  </div>
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: @user, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
+        <%= form.label :name %>
+        <%= form.text_field :name, required: true, class: "form-control mb-2"%>
+        <%= form.submit "Update name", class: "btn btn-primary btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
 
-<h3> Delete Account </h3>
-<p>TODO</p>
+  <div class='row mb-1'>
+    <h3 class=" col-12">Change Password</h3>
+  </div>
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: @user, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
+        <%= form.label :current_password %>
+        <%= form.password_field :current_password, required: true, class: "form-control mb-2" %>
+        <%= form.label :password %>
+        <%= form.password_field :password, required: true, class: "form-control mb-2"%>
+        <%= form.label :password_confirmation %>
+        <%= form.password_field :password_confirmation, required: true, class: "form-control mb-2"%>
+        <%= form.submit "Change My Password", class: "btn btn-primary btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class='row mb-1'>
+    <h3 class=" col-12">Delete Account</h3>
+  </div>
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: @user, method: :delete do |form| %>
+        <%= form.label :current_password %>
+        <%= form.password_field :current_password, required: true, class: "form-control mb-2" %>
+        <%= form.submit "Change My Password", class: "btn btn-danger btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
+
+  <hr class='mb-3'>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>

@@ -28,9 +28,20 @@ class UserController < ApplicationController
     end
 
     flash[:alert] ||= ['Current password incorrect']
-    redirect_to controller: 'user', action: 'show'
+    redirect_to controller: 'user', action: 'edit'
   end
 
   def destroy
+    parsed_params = params.require(:user).permit(:current_password)
+    if @user.authenticate(parsed_params[:current_password])
+      # byebug
+      # @user.keychains.select {|kc| kc.accounts.count == 0 }
+      @user.destroy
+      flash[:notice] = ["User destroyed"]
+      return_to '/'
+    end
+
+    flash[:alert] ||= ['Current password incorrect']
+    redirect_to controller: 'user', action: 'edit'
   end
 end

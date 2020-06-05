@@ -4,13 +4,13 @@
   </div>
   <% if @user.keychains.empty? %>
     <div class='row mb-3'>
-      <p class='col-12'>Your are not part of any keychains ask admins to invite you or create you own.</p>
+      <p class='col-12'>Your are not part of any keychains ask admins to invite you or create your own.</p>
     </div>
   <%else%>
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Keychain Name</th>
+          <th scope="col">Keychain</th>
           <th scope="col">Account count</th>
           <th scope="col">Membership</th>
           <th scope="col">Admin</th>
@@ -20,10 +20,10 @@
         <% my_membership = kc.memberships.find_by(user_id: @user.id) %>
         <tbody>
           <tr>
-            <th scope="row"><%=kc.name%></th>
+            <th scope="row"><%= link_to kc.name, '/todo', :class => "btn btn-outline-primary" %></th>
             <td><%=kc.accounts.count%></td>
             <td><%=my_membership.invite_status%></td>
-            <td><%=my_membership.admin%></td>
+            <td><%=my_membership.admin ? 'Yes' : 'No' %></td>
           </tr>
         </tbody>
       <%end%>
@@ -31,9 +31,13 @@
   <%end%>
 
   <div class='row my-3'>
-    <%= link_to 'Create a keychain', '/todo', :class => "btn btn-primary col-sm-12" %>
+    <%= link_to 'Create a keychain', '/todo', :class => "btn btn-primary btn-lg btn-block" %>
   </div>
-  <hr>
+
+  <div class='row mb-3'>
+    <%= link_to 'Edit Your account', edit_user_path(get_user), class: "btn btn-primary btn-lg btn-block" %>
+  </div>
+  <hr class='mb-3'>
   <div class='row my-3'>
     <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
   </div>
