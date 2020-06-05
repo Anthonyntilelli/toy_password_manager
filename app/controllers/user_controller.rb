@@ -2,9 +2,7 @@ class UserController < ApplicationController
   before_action :login_required, except: [ :new, :create ]
   before_action :redirect_already_logged_in, only: [ :new, :create ]
 
-  def new
-    @user = User.new
-  end
+  def new; end
 
   def create
     user = User.new(params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation))
@@ -12,7 +10,7 @@ class UserController < ApplicationController
       session[:user_id] = user.id
       return redirect_to controller: 'session', action: 'show'
     end
-    flash[:notice] = user.errors.full_messages
+    flash[:alert] = user.errors.full_messages
     redirect_to controller: 'user', action: 'new'
   end
 
@@ -25,11 +23,11 @@ class UserController < ApplicationController
     if @user.authenticate(parsed_params[:current_password])
       @user.password = parsed_params[:password]
       @user.password_confirmation = parsed_params[:password_confirmation]
-      flash[:notice] = [ "Password Change completed!" ] if @user.save
-      flash[:notice] ||= @user.errors.full_message
+      flash[:notice] = ['Password Change completed!'] if @user.save
+      flash[:alert] ||= @user.errors.full_message
     end
 
-    flash[:notice] ||= ['Current password incorrect']
+    flash[:alert] ||= ['Current password incorrect']
     redirect_to controller: 'user', action: 'show'
   end
 

@@ -3,20 +3,26 @@ class SessionController < ApplicationController
   def new; end
 
   def create
-    return redirect_to(controller: 'session', action: 'new') if params_check
+    if params_check
+      flash[:alert] = ['Missing email or password']
+      return redirect_to login_path
+    end
 
     user = User.find_by(email: params[:auth][:email].capitalize)
     user = user&.authenticate(params[:auth][:password])
 
-    return redirect_to(controller: 'session', action: 'new') unless user
+    unless user
+      flash[:alert] = ['Incorrect email or password']
+      return redirect_to login_path
+    end
 
     session[:user_id] = user.id
-    redirect_to controller: 'main', action: 'frontpage'
+    redirect_to user_path(user)
   end
 
   def destroy
     session.delete :user_id
-    redirect_to controller: 'main', action: 'frontpage'
+    redirect_to '/'
   end
 
   private
