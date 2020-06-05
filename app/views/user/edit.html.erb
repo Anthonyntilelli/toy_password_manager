@@ -1,2 +1,16 @@
 <h1>User#edit</h1>
 <p>Find me in app/views/user/edit.html.erb</p>
+
+<h3> Edit Password</h3>
+<%= form_for @user, url: {action: "update"} do |form| %>
+  <%= form.label :current_password %>
+  <%= form.password_field :current_password, required: true %> <br>
+  <%= form.label :password %>
+  <%= form.password_field :password, required: true %> <br>
+  <%= form.label :password_confirmation %>
+  <%= form.password_field :password_confirmation, required: true %><br>
+  <%= form.submit "Change My Password" %>
+<% end %>
+
+<h3> Delete Account </h3>
+<p>TODO</p>

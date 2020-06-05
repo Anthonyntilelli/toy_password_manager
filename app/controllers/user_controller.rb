@@ -6,12 +6,12 @@ class UserController < ApplicationController
 
   def create
     user = User.new(params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation))
-    if user.save
+    if user.save # User created
       session[:user_id] = user.id
-      return redirect_to controller: 'session', action: 'show'
+      return redirect_to user_path(user)
     end
     flash[:alert] = user.errors.full_messages
-    redirect_to controller: 'user', action: 'new'
+    redirect_to signup_path
   end
 
   def show; end
