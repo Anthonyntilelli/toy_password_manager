@@ -19,6 +19,11 @@ class Keychain < ApplicationRecord
     memberships.find_by(user_id: user.id) # return created membership
   end
 
+  # returns list of all active memberships
+  def active_members
+    memberships.select { |mem| mem.invite_status == 'accepted' }
+  end
+
   private
 
   def normalize_name

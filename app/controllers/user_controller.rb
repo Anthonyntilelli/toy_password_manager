@@ -1,6 +1,6 @@
 class UserController < ApplicationController
-  before_action :login_required, except: [ :new, :create ]
-  before_action :redirect_already_logged_in, only: [ :new, :create ]
+  before_action :login_required, except: %i[new create]
+  before_action :redirect_already_logged_in, only: %i[new create]
 
   def new; end
 
@@ -19,29 +19,37 @@ class UserController < ApplicationController
   def edit; end
 
   def update
-    parsed_params = params.require(:user).permit(:current_password, :password, :password_confirmation)
-    if @user.authenticate(parsed_params[:current_password])
-      @user.password = parsed_params[:password]
-      @user.password_confirmation = parsed_params[:password_confirmation]
-      flash[:notice] = ['Password Change completed!'] if @user.save
-      flash[:alert] ||= @user.errors.full_message
+    parsed_params = params_strong
+    # Ask for password change and invalid current password
+    if parsed_params[:password] && !@user.authenticate(params[:user][:current_password])
+      flash[:alert] = ['Current password incorrect']
+      return redirect_to edit_user_path(@user)
     end
 
-    flash[:alert] ||= ['Current password incorrect']
-    redirect_to controller: 'user', action: 'edit'
+    if @user.update(parsed_params)
+      flash[:notice] = ['Update Successfull']
+    else
+      flash[:alert] = @user.errors.full_messages
+    end
+    redirect_to edit_user_path(@user)
   end
 
   def destroy
     parsed_params = params.require(:user).permit(:current_password)
     if @user.authenticate(parsed_params[:current_password])
-      # byebug
-      # @user.keychains.select {|kc| kc.accounts.count == 0 }
+      @user.last_member.each(&:destroy)
       @user.destroy
-      flash[:notice] = ["User destroyed"]
-      return_to '/'
+      session.delete :user_id
+      flash[:notice] = ['User destroyed']
+      return redirect_to '/'
     end
-
     flash[:alert] ||= ['Current password incorrect']
-    redirect_to controller: 'user', action: 'edit'
+    redirect_to edit_user_path(@user)
+  end
+
+  private
+
+  def params_strong
+    params.require(:user).permit(:password, :password_confirmation, :name)
   end
 end

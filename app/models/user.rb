@@ -27,6 +27,11 @@ class User < ApplicationRecord
 
   after_validation :normalize_enties
 
+  # list of key chain this user is a member of
+  def last_member
+    keychains.select { |kc| kc.active_members.count == 1 }
+  end
+
   private
 
   def email_not_password
