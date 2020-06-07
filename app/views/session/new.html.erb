@@ -1,9 +1,25 @@
-<h2>Log in</h2>
+<main class="container">
+  <div class='row mb-3'>
+    <div class="col-12">
+      <h2 class="display-3 text-center">Login into Toy Password Manager</h2>
+    </div>
+  </div>
 
-<%= form_tag ({controller: 'session', action: 'create', method: 'post'}) do %>
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="auth[email]" placeholder="user@example.com" required><br>
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="auth[password]" minlength="8" required>
-  <input type="submit" value='login'>
-<% end %>
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with url: login_url, method: 'post', class: ['col-12', 'needs-validation'] do |form| %>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="auth[email]" placeholder="user@example.com" class="form-control mb-3" autofocus required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="auth[password]" minlength="8" class="form-control mb-3" required>
+        <div class="invalid-feedback">Passwords must be a min  of 8 characters.</div>
+        <input type="submit" value='Login'  class="btn btn-primary btn-lg btn-block">
+      <% end %>
+    </div>
+  </div>
+
+  <hr>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>

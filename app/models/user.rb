@@ -9,7 +9,7 @@ class User < ApplicationRecord
   validates :name,
             presence: true,
             format: { with: /[A-Za-z]+\s[A-Za-z]+/,
-                      message: 'Must be First and Last name' }
+                      message: 'must be First and Last name' }
   validates :email,
             presence: true,
             uniqueness: { case_sensitive: false },
@@ -26,6 +26,11 @@ class User < ApplicationRecord
   validate :email_not_password, if: -> { password_digest_changed? }
 
   after_validation :normalize_enties
+
+  # list of key chain this user is a member of
+  def last_member
+    keychains.select { |kc| kc.active_members.count == 1 }
+  end
 
   private
 

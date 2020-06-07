@@ -10,6 +10,20 @@ class Keychain < ApplicationRecord
 
   after_validation :normalize_name
 
+  # Invite users to Keychain
+  def invite(user, admin_bool, re_invite = false)
+    raise 'Invalid user' unless user.is_a?(User) && user.valid?
+
+    memberships.find_by(user_id: user.id).destroy if re_invite
+    memberships.create!(user_id: user.id, admin: admin_bool, invite_status: 'pending')
+    memberships.find_by(user_id: user.id) # return created membership
+  end
+
+  # returns list of all active memberships
+  def active_members
+    memberships.select { |mem| mem.invite_status == 'accepted' }
+  end
+
   private
 
   def normalize_name

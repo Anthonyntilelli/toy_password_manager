@@ -33,8 +33,7 @@ ActiveRecord::Schema.define(version: 2020_05_30_020010) do
   create_table "memberships", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "keychain_id", null: false
-    t.boolean "admin"
-    t.boolean "false"
+    t.boolean "admin", null: false
     t.text "invite_status", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

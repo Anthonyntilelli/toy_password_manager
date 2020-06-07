@@ -1,0 +1,44 @@
+<main class="container">
+  <div class='row mb-3'>
+      <h2 class=" col-12 display-3 text-center">Hello <%= @user.name %></h2>
+  </div>
+  <% if @user.keychains.empty? %>
+    <div class='row mb-3'>
+      <p class='col-12'>Your are not part of any keychains ask admins to invite you or create your own.</p>
+    </div>
+  <%else%>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Keychain</th>
+          <th scope="col">Account count</th>
+          <th scope="col">Membership</th>
+          <th scope="col">Admin</th>
+        </tr>
+      </thead>
+      <% @user.keychains.each do |kc| %>
+        <% my_membership = kc.memberships.find_by(user_id: @user.id) %>
+        <tbody>
+          <tr>
+            <th scope="row"><%= link_to kc.name, '/todo', :class => "btn btn-outline-primary" %></th>
+            <td><%=kc.accounts.count%></td>
+            <td><%=my_membership.invite_status%></td>
+            <td><%=my_membership.admin ? 'Yes' : 'No' %></td>
+          </tr>
+        </tbody>
+      <%end%>
+    </table>
+  <%end%>
+
+  <div class='row my-3'>
+    <%= link_to 'Create a keychain', '/todo', :class => "btn btn-primary btn-lg btn-block" %>
+  </div>
+
+  <div class='row mb-3'>
+    <%= link_to 'Edit Your account', edit_user_path(get_user), class: "btn btn-primary btn-lg btn-block" %>
+  </div>
+  <hr class='mb-3'>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>

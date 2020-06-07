@@ -1,9 +1,38 @@
-<h2>Welcome to Toy Password Manager</h2>
-<p>Find me in app/views/main/frontpage.html.erb</p>
+<main class="container">
+  <div class='row mb-4'>
+    <% if logged_in? %>
+      <h3>Welcome Back: <%=get_user.name%></h3>
+    <% else %>
+      <h3>Login Required:</h3>
+    <%end%>
+  </div>
+  <% if logged_in? %>
+    <div class='row mb-4'>
+      <%= link_to 'Open your keychains', user_path(get_user) , class: "btn btn-primary btn-lg btn-block" %>
+    </div>
+    <div class='row mb-4'>
+      <%= form_with url: logout_url, method: 'post', class: 'col-12' do |form| %>
+        <input type="submit" value='logout'  class="btn btn-secondary btn-lg btn-block">
+      <% end %>
+    </div>
+  <% else %>
+    <div class='row mb-4'>
+      <%= link_to 'Login', login_url, class: "btn btn-primary btn-lg btn-block" %>
+    </div>
+    <div class='row mb-4'>
+      <%= link_to 'Sign Up', signup_url, class: "btn btn-primary btn-lg btn-block" %>
+    </div>
+  <%end%>
 
-<% if logged_in? %>
-  <%= "logged in as: #{current_user&.email}"%>
-  <%= form_tag ({controller: 'session', action: 'destroy', method: 'post'}) do %>
-    <input type="submit" value='logout'>
-  <% end %>
-<%end%>
+  <hr class="mb-4">
+
+  <div class='row'><h3>Testimonial:</h3></div>
+
+  <div class='row'>
+    <ul class="list-group">
+      <li class="list-group-item">John Doe - <q>Do not use this site</q>.</li>
+      <li class="list-group-item">Jane Smith - <q>All my accounts got hacked</q>.</li>
+      <li class="list-group-item">David Anon - <q>The account deletion feature is the best part!</q></li>
+    </ul>
+  </div>
+</main>

@@ -1,0 +1,35 @@
+<main class="container">
+  <div class='row mb-3'>
+    <div class="col-12">
+      <h2 class="display-3 text-center">Welcome to Toy Password manager</h2>
+    </div>
+  </div>
+  <div class='row mb-3'>
+    <div class="col-12">
+      <p class="text-center"><strong>Important: </strong> This is a toy password manager and everything is stored in plain text. <strong>Do not </strong> store any real info here </p>
+    </div>
+  </div>
+
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: User.new, url: {action: "create"}, class: ['col-12', 'needs-validation'] do |form| %>
+        <%= form.label :name %>
+        <%= form.text_field :name, required: true, class: "form-control"%> <br>
+        <%= form.label :email%>
+        <%= form.email_field :email, required: true, class: "form-control"%> <br>
+        <%= form.label :email_confirmation %>
+        <%= form.email_field :email_confirmation, required: true, class: "form-control" %> <br>
+        <%= form.label :password %>
+        <%= form.password_field :password, required: true, class: "form-control"%><br>
+        <%= form.label :password_confirmation %>
+        <%= form.password_field :password_confirmation, required: true, class: "form-control"%><br>
+        <%= form.submit "Sign Up", class: "btn btn-primary btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
+
+  <hr>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>
