@@ -1,0 +1,2 @@
+class KeychainController < ApplicationController
+end
