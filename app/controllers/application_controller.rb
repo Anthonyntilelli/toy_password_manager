@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     session[:user_id] = nil
     flash[:alert] = nil
     flash[:notice] = ['You must login first.']
-    redirect_to login_path
+    redirect_to login_path, status: :unauthorized
   end
 
   def redirect_already_logged_in

@@ -20,7 +20,7 @@
         <% my_membership = kc.memberships.find_by(user_id: @user.id) %>
         <tbody>
           <tr>
-            <th scope="row"><%= link_to kc.name, '/todo', :class => "btn btn-outline-primary" %></th>
+            <th scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary" %></th>
             <td><%=kc.accounts.count%></td>
             <td><%=my_membership.invite_status%></td>
             <td><%=my_membership.admin ? 'Yes' : 'No' %></td>
