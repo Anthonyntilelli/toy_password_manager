@@ -92,15 +92,20 @@ puts 'Keychain 10'
 Keychain.create!(name: 'example', personal: false)
 
 # Membership
+user_pool = User.all
 Keychain.all.each do |kc|
   puts "Setting Membership for #{kc.name}"
-  user_pool = User.all.shuffle
   kc.invite(user_pool[0], true).accept
   kc.invite(user_pool[1], true).decline
   kc.invite(user_pool[2], false).accept
   kc.invite(user_pool[3], false) # pending (standard)
   kc.invite(user_pool[4], true) # pending (Admin)
   kc.invite(user_pool[5], false).decline
+  # User leaves start
+  leaving_user = kc.invite(user_pool[6], true)
+  leaving_user.accept
+  leaving_user.leave
+  # User leaves stop
 end
 
 # Accounts
