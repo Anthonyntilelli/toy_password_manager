@@ -106,9 +106,9 @@ end
 # Accounts
 Keychain.all.each do |kc|
   puts "Setting up accounts for #{kc.name}"
-  Account.create!(name: "#{kc.name}-account-1", keychain: kc, url: 'www.example.com')
-  Account.create!(name: "#{kc.name}-account-2", keychain: kc, username: 'Bill')
-  Account.create!(name: "#{kc.name}-account-3", keychain: kc, password: 'password')
-  Account.create!(name: "#{kc.name}-account-4", keychain: kc, url: 'www.example4.com')
-  Account.create!(name: "#{kc.name}-account-5", keychain: kc, url: 'www.example4.com')
+  Account.create!(name: "#{kc.name}-account-1", keychain: kc, url: 'www.example1.com', username: 'Fran', password: "qwerty")
+  Account.create!(name: "#{kc.name}-account-2", keychain: kc, url: 'www.example2.com', username: 'Bill', password: "Fygars-pookas")
+  Account.create!(name: "#{kc.name}-account-3", keychain: kc, url: 'www.example3.com', username: 'Dig_dug', password: "Fygars-pookas")
+  Account.create!(name: "#{kc.name}-account-4", keychain: kc, url: 'www.example4.com', username: 'Hydra', password: "Red_skill_rules!")
+  Account.create!(name: "#{kc.name}-account-5", keychain: kc, url: 'www.example5.com', username: 'Auto', password: "Super_car123")
 end
