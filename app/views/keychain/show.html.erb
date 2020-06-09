@@ -12,19 +12,13 @@
         <tr> (id: integer, name: text, keychain_id: integer, url: text, username: text, password: text, created_at: datetime, updated_at: datetime)
           <th scope="col">Name</th>
           <th scope="col">Url</th>
-          <th scope="col">Username</th>
-          <th scope="col">password</th>
-          <th scope="col">Last updated</th>
         </tr>
       </thead>
       <% @keychain.accounts.each do |acnt| %>
-        <% my_membership = kc.memberships.find_by(user_id: @user.id) %>
         <tbody>
           <tr>
-            <th scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary" %></th>
-            <td><%=kc.accounts.count%></td>
-            <td><%=my_membership.invite_status%></td>
-            <td><%=my_membership.admin ? 'Yes' : 'No' %></td>
+            <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-outline-primary" %></th>
+            <td><%=acnt.url%></td>
           </tr>
         </tbody>
       <%end%>
@@ -32,7 +26,7 @@
   <%end%>
 
   <div class='row my-3'>
-    <%= link_to 'Create an account', '/todo', :class => "btn btn-primary btn-lg btn-block" %>
+    <%= link_to 'Create an account', "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-primary btn-lg btn-block" %>
   </div>
 
   <% if @keychain.memberships.find_by(user_id: @user.id).admin%>
@@ -46,6 +40,7 @@
           <%= form.label :Invitee_email %>
           <%= form.email_field :Invitee_email, required: true, class: "form-control mb-2" %>
           <%= form.submit 'Admin: Invite new user to keychain', class: "btn btn-warning btn-lg btn-block" %>
+          <%= form.check_box%>
         <% end %>
       </div>
     </div>
