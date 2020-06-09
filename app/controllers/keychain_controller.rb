@@ -5,7 +5,7 @@ class KeychainController < ApplicationController
 
   def show; end
 
-  # TODO: update (must have admin)
+  # TODO: create update (must have admin) edit (must have admin?) destroy (must have admin)
 
   private
 
