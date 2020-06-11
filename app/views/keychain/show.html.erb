@@ -40,7 +40,10 @@
           <%= form.label :Invitee_email %>
           <%= form.email_field :Invitee_email, required: true, class: "form-control mb-2" %>
           <%= form.submit 'Admin: Invite new user to keychain', class: "btn btn-warning btn-lg btn-block" %>
-          <%= form.check_box%>
+          <div class="custom-control custom-checkbox">
+            <%= form.check_box :invite_as_admin, { class: 'custom-control-input' } , 'yes', 'no' %>
+            <%= form.label :invite_as_admin, { class: "custom-control-label" } %>
+          </div>
         <% end %>
       </div>
     </div>
