@@ -9,17 +9,23 @@ Keychain.destroy_all
 
 # Users
 puts 'User 1'
-User.create!(name: 'John Doe', email: 'JAMES.Doe@example.com', email_confirmation: 'JAMES.Doe@example.com', password: 'password123', password_confirmation: 'password123')
+User.create!(name: 'John Doe', email: 'admin_accepted@test.example.com',
+             email_confirmation: 'admin_accepted@test.example.com', password: 'password123', password_confirmation: 'password123')
 puts 'User 2'
-User.create!(name: 'JOHN potteR', email: 'JOHN.potteR@fakegoogle.net', email_confirmation: 'JOHN.potteR@fakegoogle.net', password: 'password123', password_confirmation: 'password123')
+User.create!(name: 'JOHN potteR', email: 'admin_decline@test.example.com',
+             email_confirmation: 'admin_decline@test.example.com', password: 'password123', password_confirmation: 'password123')
 puts 'User 3'
-User.create!(name: 'ROBERT Job', email: 'ROBERT.Job@definitely-real-outlook.com', email_confirmation: 'ROBERT.Job@definitely-real-outlook.com', password: 'password123', password_confirmation: 'password123')
+User.create!(name: 'ROBERT Job', email: 'user_accepted@test.example.com',
+             email_confirmation: 'user_accepted@test.example.com', password: 'password123', password_confirmation: 'password123')
 puts 'User 4'
-User.create!(name: 'MICHAEL Octal', email: 'MICHAEL.Octal@example.com', email_confirmation: 'MICHAEL.Octal@example.com', password: 'password123', password_confirmation: 'password123')
+User.create!(name: 'MICHAEL Octal', email: 'user_decline@test.example.com',
+             email_confirmation: 'user_decline@test.example.com', password: 'password123', password_confirmation: 'password123')
 puts 'User 5'
-User.create!(name: 'WILLIAM Doe', email: 'WILLIAM.Doe@fakegoogle.net', email_confirmation: 'WILLIAM.Doe@fakegoogle.net', password: 'password123', password_confirmation: 'password123')
+User.create!(name: 'WILLIAM Doe', email: 'admin_pending@test.example.com',
+             email_confirmation: 'admin_pending@test.example.com', password: 'password123', password_confirmation: 'password123')
 puts 'User 6'
-User.create!(name: 'DAVID Graves', email: 'DAVID.Graves@definitely-real-outlook.com', email_confirmation: 'DAVID.Graves@definitely-real-outlook.com', password: 'password123', password_confirmation: 'password123')
+User.create!(name: 'DAVID Graves', email: 'standard_pending@test.example.com',
+             email_confirmation: 'standard_pending@test.example.com', password: 'password123', password_confirmation: 'password123')
 puts 'User 7'
 User.create!(name: 'RICHARD Summer', email: 'RICHARD.Summer@example.com', email_confirmation: 'RICHARD.Summer@example.com', password: 'password123', password_confirmation: 'password123')
 puts 'User 8'
@@ -47,49 +53,28 @@ User.create!(name: 'LINDA Summer', email: 'LINDA.Summer@fakegoogle.net', email_c
 puts 'User 19'
 User.create!(name: 'BARBARA Smith', email: 'BARBARA.Smith@potato.org', email_confirmation: 'BARBARA.Smith@potato.org', password: 'password123', password_confirmation: 'password123')
 puts 'User 20'
-User.create!(name: 'ELIZABETH potteR ', email: 'ELIZABETH.potteR@fakegoogle.net', email_confirmation: 'ELIZABETH.potteR@fakegoogle.net', password: 'password123', password_confirmation: 'password123')
-puts 'User 21'
-User.create!(name: '   JENNIFER Winter', email: 'JENNIFER.Winter@example.com', email_confirmation: 'JENNIFER.Winter@example.com', password: 'password123', password_confirmation: 'password123')
-puts 'User 22'
-User.create!(name: 'MARIA Fall   ', email: 'MARIA.Fall@fakegoogle.net', email_confirmation: 'MARIA.Fall@fakegoogle.net', password: 'password123', password_confirmation: 'password123')
-puts 'User 23'
-User.create!(name: 'SUSAN Smith', email: 'SUSAN.Smith@potato.org', email_confirmation: 'SUSAN.Smith@potato.org', password: 'password123', password_confirmation: 'password123')
-puts 'User 24'
-User.create!(name: '   MARGARET Spring   ', email: 'MARGARET.Spring@example.com', email_confirmation: 'MARGARET.Spring@example.com', password: 'password123', password_confirmation: 'password123')
-puts 'User 25'
-User.create!(name: 'DOROTHY Smith', email: 'DOROTHY.Smith@fakegoogle.net', email_confirmation: 'DOROTHY.Smith@fakegoogle.net', password: 'password123', password_confirmation: 'password123')
-puts 'User 26'
-User.create!(name: 'LISA Octal', email: 'LISA.Octal@potato.org', email_confirmation: 'LISA.Octal@potato.org', password: 'password123', password_confirmation: 'password123')
-puts 'User 27'
-User.create!(name: 'NANCY Spring', email: 'NANCY.Spring@definitely-real-outlook.com', email_confirmation: 'NANCY.Spring@definitely-real-outlook.com', password: 'password123', password_confirmation: 'password123')
-puts 'User 28'
-User.create!(name: 'KAREN Smith', email: 'KAREN.Smith@potato.org', email_confirmation: 'KAREN.Smith@potato.org', password: 'password123', password_confirmation: 'password123')
-puts 'User 29'
-User.create!(name: 'BETTY potteR', email: 'BETTY.potteR@example.com', email_confirmation: 'BETTY.potteR@example.com', password: 'password123', password_confirmation: 'password123')
-puts 'User 30'
-User.create!(name: 'HELEN Smith', email: 'HELEN.Smith@fakegoogle.net', email_confirmation: 'HELEN.Smith@fakegoogle.net', password: 'password123', password_confirmation: 'password123')
 
 # Keychain
 puts 'Keychain 1'
-Keychain.create!(name: 'Epic Keychain', personal: false)
+Keychain.create!(name: 'Epic Keychain')
 puts 'Keychain 2'
-Keychain.create!(name: 'Keychain 2', personal: false)
+Keychain.create!(name: 'Keychain 2')
 puts 'Keychain 3'
-Keychain.create!(name: 'Keychain 3', personal: false)
+Keychain.create!(name: 'Keychain 3')
 puts 'Keychain 4'
-Keychain.create!(name: 'Keychain 4', personal: false)
+Keychain.create!(name: 'Keychain 4')
 puts 'Keychain 5'
-Keychain.create!(name: 'Keychain 5', personal: false)
+Keychain.create!(name: 'Keychain 5')
 puts 'Keychain 6'
-Keychain.create!(name: 'BAHHHHH!', personal: false)
+Keychain.create!(name: 'BAHHHHH!')
 puts 'Keychain 7'
-Keychain.create!(name: 'Secret', personal: false)
+Keychain.create!(name: 'Secret')
 puts 'Keychain 8'
-Keychain.create!(name: 'Learn.co', personal: false)
+Keychain.create!(name: 'Learn.co')
 puts 'Keychain 9'
-Keychain.create!(name: 'Flatiron', personal: false)
+Keychain.create!(name: 'Flatiron')
 puts 'Keychain 10'
-Keychain.create!(name: 'example', personal: false)
+Keychain.create!(name: 'example')
 
 # Membership
 user_pool = User.all
@@ -98,9 +83,10 @@ Keychain.all.each do |kc|
   kc.invite(user_pool[0], true).accept
   kc.invite(user_pool[1], true).decline
   kc.invite(user_pool[2], false).accept
-  kc.invite(user_pool[3], false) # pending (standard)
-  kc.invite(user_pool[4], true) # pending (Admin)
-  kc.invite(user_pool[5], false).decline
+  kc.invite(user_pool[3], false).decline
+  kc.invite(user_pool[4], true) # pending
+  kc.invite(user_pool[5], false) # pending
+
   # User leaves start
   leaving_user = kc.invite(user_pool[6], true)
   leaving_user.accept
