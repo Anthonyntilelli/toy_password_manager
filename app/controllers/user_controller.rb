@@ -1,6 +1,7 @@
 class UserController < ApplicationController
   before_action :login_required, except: %i[new create]
   before_action :redirect_already_logged_in, only: %i[new create]
+  before_action :id_match, except: %i[new create]
 
   def new; end
 
@@ -51,5 +52,14 @@ class UserController < ApplicationController
 
   def params_strong
     params.require(:user).permit(:password, :password_confirmation, :name)
+  end
+
+  # Url id must match <model>.id
+  def id_match
+    return if @user.id == params[:id].to_i
+
+    # clear potentially bad session and flash info
+    flash[:alert] = ['You are not permitted to selected id.']
+    redirect_to login_path, status: :forbidden
   end
 end
