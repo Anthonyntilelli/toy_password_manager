@@ -10,15 +10,15 @@ class KeychainController < ApplicationController
   def new; end
 
   def create
+    # Relives on `check_admin_create`
+    raise 'Must run `check_admin_create` method first' if @pending_admins.nil?
+
     @keychain = Keychain.new(params.require(:keychain).permit(:name))
     if @keychain.save
-      admins = [@user,
-                User.find_by(email: params[:email_1]&.capitalize),
-                User.find_by(email: params[:email_2]&.capitalize),
-                User.find_by(email: params[:email_3]&.capitalize),
-                User.find_by(email: params[:email_4]&.capitalize)].compact
-      admins.each do |person|
-        # TODO: Error invite not sticking or showing up as expected.
+      admin_users = [@user]
+      @pending_admins.each { |aae| admin_users << User.find_by(email: aae) }
+      admin_users.compact!
+      admin_users.each do |person|
         mem = @keychain.invite(person, true, false)
         mem.accept if @user == person # creator of keychain is auto accepted
       end
@@ -63,10 +63,19 @@ class KeychainController < ApplicationController
   def check_admin_create
     list = params.require(:keychain).permit(:name, :email_1, :email_2, :email_3, :email_4)
     email = []
-    email << 'Email 1 is not a valid user' unless list[:email_1] == '' || User.exists?(email: list[:email_1].capitalize)
-    email << 'Email 2 is not a valid user' unless list[:email_2] == '' || User.exists?(email: list[:email_2].capitalize)
-    email << 'Email 3 is not a valid user' unless list[:email_3] == '' || User.exists?(email: list[:email_3].capitalize)
-    email << 'Email 4 is not a valid user' unless list[:email_4] == '' || User.exists?(email: list[:email_4].capitalize)
+    @pending_admins = [
+      email_normalize(list[:email_1]),
+      email_normalize(list[:email_2]),
+      email_normalize(list[:email_3]),
+      email_normalize(list[:email_4])
+    ]
+
+    @pending_admins.each_with_index do |pa,index|
+      if pa != ''
+        email << "Email #{index + 1} is not a valid user" unless User.exists?(email: pa)
+        email << "Email #{index + 1} must not be you, you are already an Admin" if pa == @user.email
+      end
+    end
     return if email.empty?
 
     flash[:alert] = email

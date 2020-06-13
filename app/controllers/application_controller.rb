@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
   def redirect_already_logged_in
     redirect_to '/' if session[:user_id]&.integer?
   end
+
+  def email_normalize(email)
+    email&.strip&.capitalize
+  end
 end
