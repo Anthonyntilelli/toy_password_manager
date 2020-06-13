@@ -1,10 +1,12 @@
 class KeychainController < ApplicationController
   before_action :login_required
-  before_action :resolve_keychain # keep second
-  before_action :keychain_member_required # keep Third
+  before_action :resolve_keychain, except: [:new] # keep second
+  before_action :keychain_member_required, except: [:new] # keep Third
   # before_action :keychain_must_be_admin, only: [:create, :edit, :destory]
 
   def show; end
+
+  def new; end
 
   # TODO: create update (must have admin) edit (must have admin) destroy (must have admin)
 
@@ -33,7 +35,7 @@ class KeychainController < ApplicationController
   def keychain_must_be_admin
     return if @membership.admin
 
-    flash[:alert] = ['Must be an admin of the keychain to proceed']
+    flash[:alert] = ['You must be an admin of the keychain to proceed.']
     redirect_to login_path, status: :unauthorized
   end
 end

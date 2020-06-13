@@ -23,7 +23,7 @@
             <% if my_membership.invite_status != "declined" %>
               <th scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary" %></th>
             <% else %>
-              <th scope="row"><%= kc.name %></th>
+              <th scope="row"><span class="text-muted"><%= kc.name %></span></th>
             <%end%>
             <td><%=kc.accounts.count%></td>
             <td><%=my_membership.invite_status%></td>
@@ -35,7 +35,7 @@
   <%end%>
 
   <div class='row my-3'>
-    <%= link_to 'Create a keychain', '/todo', :class => "btn btn-primary btn-lg btn-block" %>
+    <%= link_to 'Create a keychain', new_keychain_path, :class => "btn btn-primary btn-lg btn-block" %>
   </div>
 
   <div class='row mb-3'>
