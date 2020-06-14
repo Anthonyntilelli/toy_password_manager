@@ -21,9 +21,9 @@
         <tbody>
           <tr>
             <% if my_membership.invite_status != "declined" %>
-              <th scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary" %></th>
+              <td scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary" %></td>
             <% else %>
-              <th scope="row"><span class="text-muted"><%= kc.name %></span></th>
+              <td scope="row"><span class="text-muted"><%= kc.name %></span></td>
             <%end%>
             <td><%=kc.accounts.count%></td>
             <td><%=my_membership.invite_status%></td>
