@@ -2,16 +2,15 @@ class KeychainController < ApplicationController
   before_action :login_required
   before_action :resolve_keychain, except: [:new, :create] # keep second
   before_action :keychain_member_required, except: [:new, :create] # keep Third
-  # before_action :keychain_must_be_admin, only: [:update, :edit, :destory]
-  before_action :check_admin_create, only: :create
+  before_action :keychain_must_be_admin, only: [:edit] # [:update, :edit, :destory]
+  before_action :check_additional_admins_on_create, only: :create
 
   def show; end
 
   def new; end
 
   def create
-    # Relives on `check_admin_create`
-    raise 'Must run `check_admin_create` method first' if @pending_admins.nil?
+    raise 'Must run `check_additional_admins_on_create` method first' if @pending_admins.nil?
 
     @keychain = Keychain.new(params.require(:keychain).permit(:name))
     if @keychain.save
@@ -28,6 +27,8 @@ class KeychainController < ApplicationController
     flash[:alert] = @keychain.errors.full_messages
     redirect_to new_keychain_path, status: :bad_request
   end
+
+  def edit; end
 
   # TODO: update (must have admin) edit (must have admin) destroy (must have admin)
 
@@ -60,7 +61,7 @@ class KeychainController < ApplicationController
     redirect_to login_path, status: :unauthorized
   end
 
-  def check_admin_create
+  def check_additional_admins_on_create
     list = params.require(:keychain).permit(:name, :email_1, :email_2, :email_3, :email_4)
     email = []
     @pending_admins = [
@@ -70,7 +71,7 @@ class KeychainController < ApplicationController
       email_normalize(list[:email_4])
     ]
 
-    @pending_admins.each_with_index do |pa,index|
+    @pending_admins.each_with_index do |pa, index|
       if pa != ''
         email << "Email #{index + 1} is not a valid user" unless User.exists?(email: pa)
         email << "Email #{index + 1} must not be you, you are already an Admin" if pa == @user.email

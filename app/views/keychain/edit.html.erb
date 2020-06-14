@@ -1,0 +1,69 @@
+<main class="container">
+  <div class='row mb-3'>
+      <h2 class=" col-12 display-3 text-center"> Edit Keychain: <%=@keychain.name%></h2>
+  </div>
+
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <h3>Edit KeyChain Name:</h3>
+    </div>
+  </div>
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: @keychain, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
+        <%= form.text_field :name, required: true, class: "form-control"%> <br>
+        <%= form.submit "Change Name", class: "btn btn-primary btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <h3>Edit KeyChain Membership:</h3>
+    </div>
+  </div>
+
+  <%= form_with model: @keychain, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">User</th>
+          <th scope="col">Membership</th>
+          <th scope="col">Admin</th>
+          <th scope="col">Remove</th>
+        </tr>
+      </thead>
+      <% @keychain.memberships.each do |mem| %>
+        <tbody>
+          <tr>
+            <td scope="row"><%= mem.user.email %></td>
+            <td><%=mem.invite_status%></td>
+            <td><%=form.check_box "admin_#{mem.user.email}", options: { class: 'custom-control-input' }, checked: mem.admin%></td>
+            <td><%=form.check_box "remove_#{mem.user.email}", options: { class: 'custom-control-input' }%></td>
+          </tr>
+        </tbody>
+      <%end%>
+    </table>
+    <%= form.submit "Update Memberships", class: "btn btn-primary btn-lg btn-block" %>
+  <%end%>
+
+  <div class='row my-3'>
+    <h3 class=" col-12">Delete the Keychain</h3>
+  </div>
+
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: @keychain, method: :delete do |form| %>
+        <%= form.submit "Delete this keychain", class: "btn btn-danger btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
+
+  <hr class='mb-3'>
+  <div class='row my-3'>
+    <%= link_to 'Back to Keychain ', keychain_path(@keychain), :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>
