@@ -2,7 +2,7 @@ class KeychainController < ApplicationController
   before_action :login_required
   before_action :resolve_keychain, except: [:new, :create] # keep second
   before_action :keychain_member_required, except: [:new, :create] # keep Third
-  before_action :keychain_must_be_admin, only: [:edit] # [:update, :edit, :destory]
+  before_action :keychain_must_be_admin, only: [:edit, :destroy, :update]
   before_action :check_additional_admins_on_create, only: :create
 
   def show; end
@@ -30,7 +30,39 @@ class KeychainController < ApplicationController
 
   def edit; end
 
-  # TODO: update (must have admin) edit (must have admin) destroy (must have admin)
+  def destroy
+    @keychain.destroy
+    flash[:notice] = ["#{@keychain.name} successfully deleted"]
+    redirect_to user_path(@user)
+  end
+
+  def update
+    parsed_params = params.require(:keychain).permit!
+    error = true
+    if parsed_params['update_name'] == ''
+      if @keychain.update(name: parsed_params[:name])
+        flash[:notice] = ['Update Successfull']
+        error = false
+      else
+        flash[:alert] = @keychain.errors.full_messages
+      end
+    elsif parsed_params['update_admins'] == ''
+      id = parsed_params.reject{ |k, _v| k.to_i.zero? }.to_hash
+      unless id.any? { |_k, v| v == '1' }
+        flash[:alert] = ['There must be at least one admin']
+        return redirect_to edit_keychain_path(@keychain), status: :bad_request
+      end
+      @keychain.active_members.each do |mem|
+        admin_state = id[mem.id.to_s] == '1'
+        mem.admin = admin_state
+        mem.save!
+        error = false
+      end
+    end
+    return redirect_to edit_keychain_path(@keychain), status: :bad_request if error
+
+    redirect_to edit_keychain_path(@keychain)
+  end
 
   private
 

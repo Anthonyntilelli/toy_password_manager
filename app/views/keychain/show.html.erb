@@ -14,14 +14,14 @@
           <th scope="col">Url</th>
         </tr>
       </thead>
-      <% @keychain.accounts.each do |acnt| %>
-        <tbody>
-          <tr>
-            <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-outline-primary" %></th>
-            <td><%=acnt.url%></td>
-          </tr>
-        </tbody>
-      <%end%>
+        <% @keychain.accounts.each do |acnt| %>
+          <tbody>
+            <tr>
+              <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-outline-primary" %></th>
+              <td><%=acnt.url%></td>
+            </tr>
+          </tbody>
+        <%end%>
     </table>
   <%end%>
 

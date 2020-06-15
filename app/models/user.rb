@@ -46,6 +46,4 @@ class User < ApplicationRecord
   def strip_name
     self.name = name.strip
   end
-
-  # TODO: Destroy mechanism
 end
