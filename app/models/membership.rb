@@ -10,28 +10,27 @@ class Membership < ApplicationRecord
   def decline
     pending?
     # Remove admin also on decline
-    self.update(invite_status: 'declined', admin: false)
-    self.save!
+    update(invite_status: 'declined', admin: false)
+    save!
   end
 
   def accept
     pending?
-    self.update(invite_status: 'accepted')
-    self.save!
+    update(invite_status: 'accepted')
+    save!
   end
 
   def leave
     # Remove admin also on leave
     raise 'membership must be accepted to leave.' unless invite_status == 'accepted'
-    self.update(invite_status: 'left', admin: false)
-    self.save!
-  end
 
+    update(invite_status: 'left', admin: false)
+    save!
+  end
 
   private
 
   def pending?
     raise 'membership must be pending.' unless invite_status == 'pending'
   end
-
 end

@@ -1,8 +1,8 @@
 class KeychainController < ApplicationController
   before_action :login_required
-  before_action :resolve_keychain, except: [:new, :create] # keep second
-  before_action :keychain_member_required, except: [:new, :create] # keep Third
-  before_action :keychain_must_be_admin, only: [:edit, :destroy, :update]
+  before_action :resolve_keychain, except: %i[new create] # keep second
+  before_action :keychain_member_required, except: %i[new create] # keep Third
+  before_action :keychain_must_be_admin, only: %i[edit destroy update]
   before_action :check_additional_admins_on_create, only: :create
 
   def show; end
@@ -47,7 +47,7 @@ class KeychainController < ApplicationController
         flash[:alert] = @keychain.errors.full_messages
       end
     elsif parsed_params['update_admins'] == ''
-      id = parsed_params.reject{ |k, _v| k.to_i.zero? }.to_hash
+      id = parsed_params.reject { |k, _v| k.to_i.zero? }.to_hash
       unless id.any? { |_k, v| v == '1' }
         flash[:alert] = ['There must be at least one admin']
         return redirect_to edit_keychain_path(@keychain), status: :bad_request

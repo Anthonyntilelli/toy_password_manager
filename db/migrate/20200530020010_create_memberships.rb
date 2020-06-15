@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Create membership Managment for keychains
 class CreateMemberships < ActiveRecord::Migration[6.0]
   def change
     create_table :memberships do |t|
