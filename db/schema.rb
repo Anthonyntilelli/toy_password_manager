@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 2020_05_30_020010) do
 
   create_table "keychains", force: :cascade do |t|
     t.text "name", null: false
-    t.boolean "personal", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

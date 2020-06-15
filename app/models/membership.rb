@@ -1,22 +1,34 @@
+# frozen_string_literal: true
+
+# Manages and validates memberships
 class Membership < ApplicationRecord
   belongs_to :user
   belongs_to :keychain
 
   validates :keychain, presence: true
   validates :user, presence: true, uniqueness: { scope: :keychain, message: 'is already a member or declined membership.' }
-  validates :invite_status, inclusion: { in: %w[pending accepted declined], message: '%{value} is not a valid status' }
+  validates :invite_status, inclusion: { in: %w[pending accepted declined left], message: '%{value} is not a valid status' }
   validates :admin, inclusion: { in: [true, false] } # boolean validation
 
   def decline
     pending?
-    # Remove admin also on false
-    self.update(invite_status: 'declined', admin: false)
-    self.save!
+    # Remove admin also on decline
+    update(invite_status: 'declined', admin: false)
+    save!
   end
 
   def accept
-    self.update(invite_status: 'accepted')
-    self.save!
+    pending?
+    update(invite_status: 'accepted')
+    save!
+  end
+
+  def leave
+    # Remove admin also on leave
+    raise 'membership must be accepted to leave.' unless invite_status == 'accepted'
+
+    update(invite_status: 'left', admin: false)
+    save!
   end
 
   private
@@ -24,5 +36,4 @@ class Membership < ApplicationRecord
   def pending?
     raise 'membership must be pending.' unless invite_status == 'pending'
   end
-
 end

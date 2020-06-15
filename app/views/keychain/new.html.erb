@@ -1,0 +1,35 @@
+<main class="container">
+  <div class='row mb-3'>
+      <h2 class=" col-12 display-3 text-center"> Create New Keychain</h2>
+  </div>
+
+  <div class='row mb-3'>
+    <p><strong>Instruction: </strong> Choose name below, and invite up to 4 other admins beyond yourself.</p>
+  </div>
+
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: Keychain.new, url: {action: "create"}, class: ['col-12', 'needs-validation'] do |form| %>
+        <%= form.label :name, "Keychain Name" %>
+        <%= form.text_field :name, required: true, class: "form-control"%> <br>
+        <%= form.label :email_1, "Additional Admin Email 1 (OPTIONAL)"%>
+        <%= form.email_field :email_1, required: false, class: "form-control"%> <br>
+        <%= form.label :email_2, "Additional Admin Email 2 (OPTIONAL)"%>
+        <%= form.email_field :email_2, required: false, class: "form-control"%> <br>
+        <%= form.label :email_3, "Additional Admin Email 3 (OPTIONAL)"%>
+        <%= form.email_field :email_3, required: false, class: "form-control"%> <br>
+        <%= form.label :email_4, "Additional Admin Email 4 (OPTIONAL)"%>
+        <%= form.email_field :email_4, required: false, class: "form-control"%> <br>
+        <%= form.submit "Create", class: "btn btn-primary btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
+
+  <hr class='mb-3'>
+  <div class='row my-3'>
+    <%= link_to 'Back to Keychain list', user_path(@user), :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>

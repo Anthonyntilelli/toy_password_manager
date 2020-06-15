@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Creates to store for passwords (plain text) and related login info
 class CreateAccounts < ActiveRecord::Migration[6.0]
   def change
     create_table :accounts do |t|

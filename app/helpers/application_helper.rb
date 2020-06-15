@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# View helpers for entire application
 module ApplicationHelper
   # Returns if T/F user logged in
   def logged_in?

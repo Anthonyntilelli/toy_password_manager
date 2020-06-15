@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Manage login and logout
 class SessionController < ApplicationController
   before_action :redirect_already_logged_in, except: :destroy
   def new; end

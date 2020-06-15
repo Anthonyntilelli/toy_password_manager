@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Validates and manages User
 class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :keychains, through: :memberships
@@ -46,6 +49,4 @@ class User < ApplicationRecord
   def strip_name
     self.name = name.strip
   end
-
-  # TODO: Destroy mechanism
 end

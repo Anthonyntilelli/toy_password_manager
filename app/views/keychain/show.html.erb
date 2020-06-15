@@ -1,0 +1,57 @@
+<main class="container">
+  <div class='row mb-3'>
+      <h2 class=" col-12 display-3 text-center">Keychain: <%= @keychain.name %></h2>
+  </div>
+  <% if @keychain.accounts.empty? %>
+    <div class='row mb-3'>
+      <p class='col-12'>There are no accounts in this keychain, you should add some. </p>
+    </div>
+  <%else%>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Url</th>
+        </tr>
+      </thead>
+        <% @keychain.accounts.each do |acnt| %>
+          <tbody>
+            <tr>
+              <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-outline-primary" %></th>
+              <td><%=acnt.url%></td>
+            </tr>
+          </tbody>
+        <%end%>
+    </table>
+  <%end%>
+
+  <div class='row my-3'>
+    <%= link_to 'Create an account', "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-primary btn-lg btn-block" %>
+  </div>
+
+  <% if keychain_admin?(@keychain, @user.id) %>
+    <div class='row mb-3'>
+      <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
+    </div>
+
+    <div class='row mb-3'>
+      <div class="col-sm-12">
+        <%= form_with model: @keychain, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
+          <p>TODO: Swith to nested link for "NEW" invite '/keychain/:id/membership/new'</p>
+          <%= form.label :Invitee_email %>
+          <%= form.email_field :Invitee_email, required: true, class: "form-control mb-2" %>
+          <%= form.submit 'Admin: Invite new user to keychain', class: "btn btn-warning btn-lg btn-block" %>
+          <div class="custom-control custom-checkbox">
+            <%= form.check_box :invite_as_admin, { class: 'custom-control-input' } , 'yes', 'no' %>
+            <%= form.label :invite_as_admin, { class: "custom-control-label" } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <hr class='mb-3'>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>

@@ -20,7 +20,11 @@
         <% my_membership = kc.memberships.find_by(user_id: @user.id) %>
         <tbody>
           <tr>
-            <th scope="row"><%= link_to kc.name, '/todo', :class => "btn btn-outline-primary" %></th>
+            <% if my_membership.invite_status != "declined" %>
+              <td scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary" %></td>
+            <% else %>
+              <td scope="row"><span class="text-muted"><%= kc.name %></span></td>
+            <%end%>
             <td><%=kc.accounts.count%></td>
             <td><%=my_membership.invite_status%></td>
             <td><%=my_membership.admin ? 'Yes' : 'No' %></td>
@@ -31,7 +35,7 @@
   <%end%>
 
   <div class='row my-3'>
-    <%= link_to 'Create a keychain', '/todo', :class => "btn btn-primary btn-lg btn-block" %>
+    <%= link_to 'Create a keychain', new_keychain_path, :class => "btn btn-primary btn-lg btn-block" %>
   </div>
 
   <div class='row mb-3'>
