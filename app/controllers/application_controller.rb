@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Central application
 class ApplicationController < ActionController::Base
   private
 

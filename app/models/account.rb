@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Manages and validate account for stored passwords
 class Account < ApplicationRecord
   belongs_to :keychain
 

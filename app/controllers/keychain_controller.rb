@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Manage Keychain actions
 class KeychainController < ApplicationController
   before_action :login_required
   before_action :resolve_keychain, except: %i[new create] # keep second

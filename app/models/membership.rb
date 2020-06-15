@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Manages and validates memberships
 class Membership < ApplicationRecord
   belongs_to :user
   belongs_to :keychain

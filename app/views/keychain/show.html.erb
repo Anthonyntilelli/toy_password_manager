@@ -29,7 +29,7 @@
     <%= link_to 'Create an account', "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-primary btn-lg btn-block" %>
   </div>
 
-  <% if @keychain.memberships.find_by(user_id: @user.id).admin%>
+  <% if keychain_admin?(@keychain, @user.id) %>
     <div class='row mb-3'>
       <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
     </div>

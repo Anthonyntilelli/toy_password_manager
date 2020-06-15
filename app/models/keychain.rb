@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Manages and validates Keychains
 class Keychain < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :accounts, dependent: :destroy

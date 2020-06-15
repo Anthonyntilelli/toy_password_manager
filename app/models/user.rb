@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Validates and manages User
 class User < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :keychains, through: :memberships
