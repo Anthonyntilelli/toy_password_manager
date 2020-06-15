@@ -37,6 +37,7 @@
     <div class='row mb-3'>
       <div class="col-sm-12">
         <%= form_with model: @keychain, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
+          <p>TODO: Swith to nested link for "NEW" invite '/keychain/:id/membership/new'</p>
           <%= form.label :Invitee_email %>
           <%= form.email_field :Invitee_email, required: true, class: "form-control mb-2" %>
           <%= form.submit 'Admin: Invite new user to keychain', class: "btn btn-warning btn-lg btn-block" %>
