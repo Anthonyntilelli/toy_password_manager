@@ -12,8 +12,9 @@
         <tr>
           <th scope="col">Keychain</th>
           <th scope="col">Account count</th>
-          <th scope="col">Membership</th>
           <th scope="col">Admin</th>
+          <th scope="col">Membership</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <% @user.keychains.each do |kc| %>
@@ -21,13 +22,32 @@
         <tbody>
           <tr>
             <% if my_membership.invite_status != "declined" %>
-              <td scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary" %></td>
+              <td scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary btn-block" %></td>
             <% else %>
               <td scope="row"><span class="text-muted"><%= kc.name %></span></td>
             <%end%>
-            <td><%=kc.accounts.count%></td>
+            <td class="text-center"><%=kc.accounts.count%></td>
+            <td class="text-center"><%=my_membership.admin ? 'Yes' : 'No' %></td>
             <td><%=my_membership.invite_status%></td>
-            <td><%=my_membership.admin ? 'Yes' : 'No' %></td>
+
+            <% case my_membership.invite_status%>
+            <% when 'pending' %>
+              <td>
+                <%= form_with url: user_membership_path(my_membership), method: "patch" do |form| %>
+                  <%= form.submit "Accept", class: "btn btn-block btn-outline-primary" %>
+                  <%= form.submit "Decline", class: "btn btn-block btn-outline-primary" %>
+                <% end %>
+              </td>
+            <% when 'accepted' %>
+              <td>
+                <%= form_with url: user_membership_path(my_membership), method: "patch" do |form| %>
+                  <%= form.submit "Leave", class: "btn btn-block btn-outline-warning" %>
+                <% end %>
+              </td>
+            <% else %>
+              <td><button class ="btn btn-block btn-outline-dark" disabled>No Action Available</button></td>
+            <%end%>
+
           </tr>
         </tbody>
       <%end%>

@@ -17,8 +17,8 @@
         <% @keychain.accounts.each do |acnt| %>
           <tbody>
             <tr>
-              <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-outline-primary" %></th>
-              <td><%=acnt.url%></td>
+              <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-block btn-outline-primary" %></th>
+              <td class="text-center"><%=acnt.url%></td>
             </tr>
           </tbody>
         <%end%>
