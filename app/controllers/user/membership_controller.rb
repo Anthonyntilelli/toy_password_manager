@@ -3,8 +3,7 @@
 # Manage Membership for users (keychain controller handles its membership)
 class User::MembershipController < ApplicationController
   before_action :login_required
-  before_action :resolve_membership
-  # to do limit to user_id of membership
+  before_action :resolve_membership_for_user
 
   def update
     case params[:invite_action]
@@ -23,7 +22,9 @@ class User::MembershipController < ApplicationController
 
   private
 
-  def resolve_membership
+
+  # Set membership and check if user can access that membership
+  def resolve_membership_for_user
     @membership = @user.memberships.find_by(id: params[:id])
     return if @membership
 
