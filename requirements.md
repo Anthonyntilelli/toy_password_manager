@@ -25,7 +25,7 @@ Specs:
 - [ ] Include nested resource show or index (URL e.g. users/2/recipes)
 - [ ] Include nested resource "new" form (URL e.g. recipes/1/ingredients/new)
 - [x] Include form display of validation errors (form URL e.g. /recipes/new)
-    - FLash is used extensively
+    - Flash is used extensively
 
 Confirm:
 - [ ] The application is pretty DRY

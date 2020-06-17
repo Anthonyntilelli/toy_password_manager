@@ -21,7 +21,7 @@
         <% my_membership = kc.memberships.find_by(user_id: @user.id) %>
         <tbody>
           <tr>
-            <% if my_membership.invite_status != "declined" %>
+            <% if my_membership.invite_status == 'accepted' %>
               <td scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary btn-block" %></td>
             <% else %>
               <td scope="row"><span class="text-muted"><%= kc.name %></span></td>
@@ -34,14 +34,14 @@
             <% when 'pending' %>
               <td>
                 <%= form_with url: user_membership_path(my_membership), method: "patch" do |form| %>
-                  <%= form.submit "Accept", class: "btn btn-block btn-outline-primary" %>
-                  <%= form.submit "Decline", class: "btn btn-block btn-outline-primary" %>
+                  <%= form.button 'Accept', value: 'accept', name: "invite_action", class: "btn btn-block btn-outline-warning" %>
+                  <%= form.button 'Decline', value: 'decline', name: "invite_action", class: "btn btn-block btn-outline-warning" %>
                 <% end %>
               </td>
             <% when 'accepted' %>
               <td>
                 <%= form_with url: user_membership_path(my_membership), method: "patch" do |form| %>
-                  <%= form.submit "Leave", class: "btn btn-block btn-outline-warning" %>
+                  <%= form.button 'Leave', value: "leave", name: "invite_action", class: "btn btn-block btn-outline-warning" %>
                 <% end %>
               </td>
             <% else %>
@@ -61,6 +61,7 @@
   <div class='row mb-3'>
     <%= link_to 'Edit Your account', edit_user_path(get_user), class: "btn btn-primary btn-lg btn-block" %>
   </div>
+
   <hr class='mb-3'>
   <div class='row my-3'>
     <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
