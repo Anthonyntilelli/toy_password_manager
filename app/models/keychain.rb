@@ -23,6 +23,13 @@ class Keychain < ApplicationRecord
     memberships.select { |mem| mem.invite_status == 'accepted' }
   end
 
+  def admin?(user)
+    raise 'Must be a user.' unless user.is_a?(User)
+    return true if memberships.find_by(user_id: user.id).admin
+
+    false
+  end
+
   private
 
   def normalize_name
