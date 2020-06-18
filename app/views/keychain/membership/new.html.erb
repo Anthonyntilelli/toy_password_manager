@@ -1,0 +1,28 @@
+<main class="container">
+  <div class='row mb-3'>
+      <h2 class=" col-12 display-3 text-center"> Add members to <%= @keychain.name%> Keychain </h2>
+  </div>
+
+  <div class='row mb-3'>
+    <div class="col-sm-12">
+      <%= form_with model: Membership.new, url: {action: "create"}, class: ['col-12', 'needs-validation'] do |form| %>
+        <%= form.hidden_field(:kc, value: @keychain.id) %>
+        <%= form.label :user_email, "User Email"%>
+        <%= form.email_field :user_email, required: true, class: "form-control"%> <br>
+        <div class="custom-control custom-checkbox">
+          <%= form.check_box :invite_as_admin, { class: 'custom-control-input' }%>
+          <%= form.label :invite_as_admin, { class: "custom-control-label" } %>
+        </div>
+        <%= form.submit "Add Member", class: "btn btn-primary btn-lg btn-block" %>
+      <% end %>
+    </div>
+  </div>
+
+  <hr class='mb-3'>
+  <div class='row my-3'>
+    <%= link_to 'Back to Keychain list', user_path(@user), :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</main>

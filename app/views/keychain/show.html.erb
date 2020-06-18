@@ -34,7 +34,7 @@
       <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
     </div>
     <div class='row mb-3'>
-      <%= link_to 'Admin: Bulk add create new members',  "#{new_keychain_membership_path}?kc=#{@keychain.id}", class: "btn btn-warning btn-lg btn-block" %>
+      <%= link_to 'Admin: Invite new member',  "#{new_keychain_membership_path}?kc=#{@keychain.id}", class: "btn btn-warning btn-lg btn-block" %>
     </div>
   <% end %>
 
