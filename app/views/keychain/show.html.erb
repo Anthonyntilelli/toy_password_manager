@@ -17,8 +17,8 @@
         <% @keychain.accounts.each do |acnt| %>
           <tbody>
             <tr>
-              <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-outline-primary" %></th>
-              <td><%=acnt.url%></td>
+              <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-block btn-outline-primary" %></th>
+              <td class="text-center"><%=acnt.url%></td>
             </tr>
           </tbody>
         <%end%>
@@ -33,25 +33,13 @@
     <div class='row mb-3'>
       <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
     </div>
-
     <div class='row mb-3'>
-      <div class="col-sm-12">
-        <%= form_with model: @keychain, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
-          <p>TODO: Swith to nested link for "NEW" invite '/keychain/:id/membership/new'</p>
-          <%= form.label :Invitee_email %>
-          <%= form.email_field :Invitee_email, required: true, class: "form-control mb-2" %>
-          <%= form.submit 'Admin: Invite new user to keychain', class: "btn btn-warning btn-lg btn-block" %>
-          <div class="custom-control custom-checkbox">
-            <%= form.check_box :invite_as_admin, { class: 'custom-control-input' } , 'yes', 'no' %>
-            <%= form.label :invite_as_admin, { class: "custom-control-label" } %>
-          </div>
-        <% end %>
-      </div>
+      <%= link_to 'Admin: Invite new member',  "#{new_keychain_membership_path}?kc=#{@keychain.id}", class: "btn btn-warning btn-lg btn-block" %>
     </div>
   <% end %>
 
   <hr class='mb-3'>
   <div class='row my-3'>
-    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
+    <%= link_to 'Frontpage', '/' , :class => "btn btn-secondary btn-sm col-sm-12" %>
   </div>
 </main>
