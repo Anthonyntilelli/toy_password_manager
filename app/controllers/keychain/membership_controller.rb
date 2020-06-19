@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 # Manage Membership for keychains
-class Keychain::MembershipController < ApplicationController
-  before_action :login_required
-  before_action :resolve_keychain
+class Keychain::MembershipController < Keychain::SubController
   before_action :must_be_admin_of_keychain
 
   def new; end
@@ -25,18 +23,6 @@ class Keychain::MembershipController < ApplicationController
   end
 
   private
-
-  def resolve_keychain
-    @keychain = if request.method == 'POST'
-                  Keychain.find_by(id: params[:membership][:kc])
-                elsif request.method == 'GET'
-                  Keychain.find_by(id: params[:kc])
-                end
-    return if @keychain.is_a?(Keychain)
-
-    flash[:alert] = ['Unsupported Method']
-    redirect_to user_path(@user), status: :forbidden
-  end
 
   # determines if you are an admin
   def must_be_admin_of_keychain
