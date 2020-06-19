@@ -5,6 +5,8 @@ class Keychain::SubController < ApplicationController
   before_action :login_required
   before_action :resolve_keychain
 
+  def new; end
+
   private
 
   def resolve_keychain

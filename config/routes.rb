@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :keychain, only: %i[show new update edit create destroy]
   namespace :keychain do
     resources :membership, only: %i[new create]
+    resources :account, only: %i[new create show update edit destroy]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -26,7 +26,7 @@
   <%end%>
 
   <div class='row my-3'>
-    <%= link_to 'Create an account', "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-primary btn-lg btn-block" %>
+    <%= link_to 'Create an account', "#{new_keychain_account_path}?kc=#{@keychain.id}", :class => "btn btn-primary btn-lg btn-block" %>
   </div>
 
   <% if keychain_admin?(@keychain, @user.id) %>

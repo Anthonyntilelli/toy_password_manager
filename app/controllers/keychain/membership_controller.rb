@@ -4,8 +4,6 @@
 class Keychain::MembershipController < Keychain::SubController
   before_action :must_be_admin_of_keychain
 
-  def new; end
-
   def create
     begin
       @keychain.invite(
