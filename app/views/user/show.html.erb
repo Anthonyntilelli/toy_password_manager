@@ -11,9 +11,9 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">Keychain</th>
-          <th scope="col">Account count</th>
           <th scope="col">Admin</th>
           <th scope="col">Membership</th>
+          <th scope="col">Active Membership count</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -26,9 +26,9 @@
             <% else %>
               <td scope="row"><span class="text-muted"><%= kc.name %></span></td>
             <%end%>
-            <td class="text-center"><%=kc.accounts.count%></td>
             <td class="text-center"><%=my_membership.admin ? 'Yes' : 'No' %></td>
             <td><%=my_membership.invite_status%></td>
+            <td class="text-center"><%=kc.active_members.count%></td>
 
             <% case my_membership.invite_status%>
             <% when 'pending' %>
@@ -41,7 +41,11 @@
             <% when 'accepted' %>
               <td>
                 <%= form_with url: user_membership_path(my_membership), method: "patch" do |form| %>
-                  <%= form.button 'Leave', value: "leave", name: "invite_action", class: "btn btn-block btn-outline-warning" %>
+                  <%if kc.active_members.count == 1%>
+                    <%= form.button 'Leave and Delete Keychain', value: 'leave', name: 'invite_action', class: 'btn btn-block btn-outline-danger' %>
+                  <%else%>
+                    <%= form.button 'Leave', value: 'leave', name: 'invite_action', class: 'btn btn-block btn-outline-warning' %>
+                  <% end %>
                 <% end %>
               </td>
             <% else %>

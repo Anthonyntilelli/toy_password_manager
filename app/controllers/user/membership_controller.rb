@@ -10,6 +10,11 @@ class User::MembershipController < ApplicationController
     when 'leave'
       @membership.leave
       flash[:notice] = ['Left keychain successfully.']
+      kc = @membership.keychain
+      if kc.active_members.count.zero? # No active members left
+        kc.destroy
+        flash[:notice] << 'Deleted keychain because all members have left.'
+      end
     when 'accept'
       @membership.accept
       flash[:notice] = ['Accepted invite successfully']
@@ -21,7 +26,6 @@ class User::MembershipController < ApplicationController
   end
 
   private
-
 
   # Set membership and check if user can access that membership
   def resolve_membership_for_user
