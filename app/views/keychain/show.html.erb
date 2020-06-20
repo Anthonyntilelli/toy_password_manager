@@ -17,7 +17,7 @@
         <% @keychain.accounts.each do |acnt| %>
           <tbody>
             <tr>
-              <th scope="row"><%= link_to acnt.name, "/keychain/#{@keychain.id}/accounts/todo", :class => "btn btn-block btn-outline-primary" %></th>
+              <th scope="row"><%= link_to acnt.name, keychain_account_path(acnt.id), :class => "btn btn-block btn-outline-primary" %></th>
               <td class="text-center"><%=acnt.url%></td>
             </tr>
           </tbody>
@@ -34,7 +34,7 @@
       <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
     </div>
     <div class='row mb-3'>
-      <%= link_to 'Admin: Invite new member',  "#{new_keychain_membership_path}?kc=#{@keychain.id}", class: "btn btn-warning btn-lg btn-block" %>
+      <%= link_to 'Admin: Invite new member', "#{new_keychain_membership_path}?kc=#{@keychain.id}", class: "btn btn-warning btn-lg btn-block" %>
     </div>
   <% end %>
 

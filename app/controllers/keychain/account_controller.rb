@@ -1,15 +1,12 @@
-# new_keychain_account   GET    /keychain/account/new(.:format)                                                          keychain/account#new
-# keychain_account_index POST   /keychain/account(.:format)                                                               keychain/account#create
-# edit_keychain_account  GET    /keychain/account/:id/edit(.:format)                                                      keychain/account#edit
-#      keychain_account  GET    /keychain/account/:id(.:format)                                                           keychain/account#show
-#                        PATCH  /keychain/account/:id(.:format)                                                           keychain/account#update
-#                        PUT    /keychain/account/:id(.:format)                                                           keychain/account#update
-#                        DELETE /keychain/account/:id(.:format)                                                           keychain/account#destroy
-
 # frozen_string_literal: true
 
 # Manage Membership for keychains
 class Keychain::AccountController < Keychain::SubController
+  before_action :resolve_keychain, only: %i[new create]
+  before_action :resolve_keychain_and_account, except: %i[new create]
+  before_action :keychain_members_only
+
+  def new; end
 
   def create
     begin
@@ -22,12 +19,47 @@ class Keychain::AccountController < Keychain::SubController
     redirect_to keychain_path(@keychain), status: :bad_request
   end
 
+  def show; end
 
   def edit; end
 
-  def show; end
+  def update
+    if @account.update(strong_params)
+      flash[:notice] = ['Account update completed']
+      redirect_to keychain_account_path(@account)
+    else
+      flash[:alert] = @account.errors.full_messages
+      redirect_to keychain_account_path(@account), status: :bad_request
+    end
+  end
 
-  def update; end
+  def destroy
+    @account.destroy
+    flash[:notice] = ['Account Deleted']
 
-  def destory; end
+    redirect_to keychain_path(@keychain)
+  end
+
+  private
+
+  def strong_params
+    params.require(:account).permit(:keychain_id, :name, :url, :username, :password)
+  end
+
+  def resolve_keychain_and_account
+    @account = Account.find_by(id: params[:id])
+    @keychain = @account&.keychain
+    return if @account.is_a?(Account)
+
+    flash[:alert] = ['invalid Account']
+    redirect_to login_path, status: :unauthorized
+  end
+
+  # Determines if user is an active member of that keychain
+  def keychain_members_only
+    return if @keychain&.active_members&.find { |mem| mem.user == @user }
+
+    flash[:alert] = ['Not an active member of that keychain']
+    redirect_to login_path, status: :unauthorized
+  end
 end
