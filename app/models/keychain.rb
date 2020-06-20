@@ -18,6 +18,12 @@ class Keychain < ApplicationRecord
     memberships.find_by(user_id: user.id) # return created membership
   end
 
+  def add_account(account_hash)
+    raise 'Must be a hash' unless account_hash.is_a?(Hash)
+
+    accounts.create!(account_hash)
+  end
+
   # returns list of all active memberships
   def active_members
     memberships.select { |mem| mem.invite_status == 'accepted' }
