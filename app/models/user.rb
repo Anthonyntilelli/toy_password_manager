@@ -35,6 +35,17 @@ class User < ApplicationRecord
     keychains.select { |kc| kc.active_members.count == 1 }
   end
 
+  def self.create_oauth(name, email)
+    # max size of has_secure_password is 72
+    dummy_password = SecureRandom.hex(36)
+    user = User.new(
+      name: name, email: email, email_confirmation: email,
+      password: dummy_password, password_confirmation: dummy_password
+    )
+    user.save
+    user
+  end
+
   private
 
   def email_not_password

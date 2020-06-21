@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'main#frontpage'
   get '/login' => 'session#new'
   post '/login' => 'session#create'
+  get "/auth/:provider/callback" => "session#create_omniauth" # OAuth
   post '/logout' => 'session#destroy'
   get '/signup' => 'user#new'
   resources :user, only: %i[create show update edit destroy]
