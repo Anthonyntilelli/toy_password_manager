@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_secure_password
 
   before_validation :strip_name, on: %i[create update]
+  before_update :change_password
 
   validates :name,
             presence: true,
@@ -40,13 +41,19 @@ class User < ApplicationRecord
     dummy_password = SecureRandom.hex(36)
     user = User.new(
       name: name, email: email, email_confirmation: email,
-      password: dummy_password, password_confirmation: dummy_password
+      password: dummy_password, password_confirmation: dummy_password,
+      dummy_password: true
     )
     user.save
     user
   end
 
   private
+
+  # Remove dummy password status on password change
+  def change_password
+    self.dummy_password = false if password_digest_changed?
+  end
 
   def email_not_password
     errors.add(:password, 'must not equal email') if password.downcase == email.downcase

@@ -5,6 +5,7 @@ class UserController < ApplicationController
   before_action :login_required, except: %i[new create]
   before_action :redirect_already_logged_in, only: %i[new create]
   before_action :id_match, except: %i[new create]
+  before_action :require_current_password, only: %i[update destroy]
 
   def new; end
 
@@ -23,14 +24,7 @@ class UserController < ApplicationController
   def edit; end
 
   def update
-    parsed_params = params_strong
-    # Ask for password change and invalid current password
-    if parsed_params[:password] && !@user.authenticate(params[:user][:current_password])
-      flash[:alert] = ['Current password incorrect']
-      return redirect_to edit_user_path(@user)
-    end
-
-    if @user.update(parsed_params)
+    if @user.update(params_strong)
       flash[:notice] = ['Update Successfull']
     else
       flash[:alert] = @user.errors.full_messages
@@ -39,16 +33,11 @@ class UserController < ApplicationController
   end
 
   def destroy
-    parsed_params = params.require(:user).permit(:current_password)
-    if @user.authenticate(parsed_params[:current_password])
-      @user.last_member.each(&:destroy)
-      @user.destroy
-      session.delete :user_id
-      flash[:notice] = ['User destroyed']
-      return redirect_to '/'
-    end
-    flash[:alert] ||= ['Current password incorrect']
-    redirect_to edit_user_path(@user)
+    @user.last_member.each(&:destroy)
+    @user.destroy
+    session.delete :user_id
+    flash[:notice] = ['User destroyed']
+    redirect_to '/'
   end
 
   private
@@ -64,5 +53,16 @@ class UserController < ApplicationController
     # clear potentially bad session and flash info
     flash[:alert] = ['You are not permitted to selected id.']
     redirect_to login_path, status: :forbidden
+  end
+
+  def require_current_password
+    # Skip Current Password Check
+    return if @user.dummy_password
+    return if action_name == 'update' && params_strong[:password].nil?
+    # Valid current password
+    return if @user.authenticate(params[:user][:current_password])
+
+    flash[:alert] = ['Current password incorrect']
+    redirect_to edit_user_path(@user)
   end
 end
