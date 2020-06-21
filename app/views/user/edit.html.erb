@@ -23,7 +23,7 @@
     <div class="col-sm-12">
       <%= form_with model: @user, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
         <%= form.label :current_password %>
-        <%= form.password_field :current_password, required: true, class: "form-control mb-2" %>
+        <%= form.password_field :current_password, required: true, disabled: @user.dummy_password, class: "form-control mb-2" %>
         <%= form.label :password %>
         <%= form.password_field :password, required: true, class: "form-control mb-2"%>
         <%= form.label :password_confirmation %>
@@ -41,7 +41,7 @@
     <div class="col-sm-12">
       <%= form_with model: @user, method: :delete do |form| %>
         <%= form.label :current_password %>
-        <%= form.password_field :current_password, required: true, class: "form-control mb-2" %>
+        <%= form.password_field :current_password, required: true, disabled: @user.dummy_password, class: "form-control mb-2" %>
         <%= form.submit "Delete my Accout", class: "btn btn-danger btn-lg btn-block" %>
       <% end %>
     </div>
