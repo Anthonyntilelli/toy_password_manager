@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Manage User Interactions
-class UserController < ApplicationController
+class UsersController < ApplicationController
   before_action :login_required, except: %i[new create]
   before_action :redirect_already_logged_in, only: %i[new create]
   before_action :id_match, except: %i[new create]
