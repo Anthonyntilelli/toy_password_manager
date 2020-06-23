@@ -8,12 +8,11 @@
   <div class='row mb-3'>
     <div class="col-sm-12">
       <%= form_with url: login_url, method: 'post', class: ['col-12', 'needs-validation'] do |form| %>
-        <label for="email">Email:</label>
+        <%= form.label :email, "Email"%>
         <input type="email" id="email" name="auth[email]" placeholder="user@example.com" class="form-control mb-3" autofocus required>
-        <label for="password">Password:</label>
+        <%= form.label :password, "Password"%>
         <input type="password" id="password" name="auth[password]" minlength="8" class="form-control mb-3" required>
-        <div class="invalid-feedback">Passwords must be a min  of 8 characters.</div>
-        <input type="submit" value='Login'  class="btn btn-primary btn-lg btn-block">
+        <%= form.submit "Login", class: "btn btn-primary btn-lg btn-block" %>
       <% end %>
     </div>
   </div>

@@ -23,4 +23,16 @@ class ApplicationController < ActionController::Base
   def email_normalize(email)
     email&.strip&.capitalize
   end
+
+  # redirect and provide ONE MESSAGE on Error
+  def alert_and_redirect(string_message, url, status)
+    flash[:alert] = [string_message]
+    redirect_to url, status: status
+  end
+
+  # redirect and provide ONE MESSAGE on Success
+  def notice_and_redirect(string_message, url)
+    flash[:notice] = [string_message]
+    redirect_to url
+  end
 end
