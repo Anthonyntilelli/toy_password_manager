@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Manage User Interactions
+# Manage Users Interactions
 class UsersController < ApplicationController
   before_action :login_required, except: %i[new create]
   before_action :redirect_already_logged_in, only: %i[new create]
-  before_action :id_match, except: %i[new create]
+  before_action :user_id_match, except: %i[new create]
   before_action :require_current_password, only: %i[update destroy]
 
   def new; end
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(user)
     end
     flash[:alert] = user.errors.full_messages
-    redirect_to signup_path
+    redirect_to signup_path, status: :bad_request
   end
 
   def show; end
@@ -25,19 +25,18 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(params_strong)
-      flash[:notice] = ['Update Successfull']
+      notice_and_redirect('Update Successfull', edit_user_path(@user))
     else
       flash[:alert] = @user.errors.full_messages
+      redirect_to edit_user_path(@user), status: :bad_request
     end
-    redirect_to edit_user_path(@user)
   end
 
   def destroy
     @user.last_member.each(&:destroy)
     @user.destroy
     session.delete :user_id
-    flash[:notice] = ['User destroyed']
-    redirect_to '/'
+    notice_and_redirect('User destroyed', root_url)
   end
 
   private
@@ -46,13 +45,11 @@ class UsersController < ApplicationController
     params.require(:user).permit(:password, :password_confirmation, :name)
   end
 
-  # Url id must match <model>.id
-  def id_match
+  # params id must match @user.id
+  def user_id_match
     return if @user.id == params[:id].to_i
 
-    # clear potentially bad session and flash info
-    flash[:alert] = ['You are not permitted to selected id.']
-    redirect_to login_path, status: :forbidden
+    alert_and_redirect('Not your user', user_path(@user), :forbidden)
   end
 
   def require_current_password
@@ -62,7 +59,6 @@ class UsersController < ApplicationController
     # Valid current password
     return if @user.authenticate(params[:user][:current_password])
 
-    flash[:alert] = ['Current password incorrect']
-    redirect_to edit_user_path(@user)
+    alert_and_redirect('Current password incorrect', edit_user_path(@user), :forbidden)
   end
 end

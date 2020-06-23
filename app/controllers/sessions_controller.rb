@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Manage login and logout
+# Manage Sesions
 class SessionsController < ApplicationController
   before_action :redirect_already_logged_in, except: %i[destroy create_omniauth]
 
