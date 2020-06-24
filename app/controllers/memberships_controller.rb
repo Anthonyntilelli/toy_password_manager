@@ -11,6 +11,7 @@ class MembershipsController < ApplicationController
     case params[:invite_action]
     when 'leave'
       user_leave
+      redirect_to user_path(@user)
     when 'accept'
       @membership.accept
       notice_and_redirect('Accepted invite successfully', user_path(@user))
@@ -25,7 +26,6 @@ class MembershipsController < ApplicationController
   # Set membership and check if user owns that membership
   def user_must_own_membership
     # User ID match
-
     @membership = @user.memberships.find_by(id: params[:id])
     return if @membership && @membership.invite_status != 'left'
 
@@ -42,7 +42,7 @@ class MembershipsController < ApplicationController
     @membership.leave
     flash[:notice] = ['Left keychain successfully.']
     kc = @membership.keychain
-    return unless if kc.active_members.count.zero? # No active members left
+    return unless kc.active_members.count.zero? # No active members left
 
     kc.destroy
     flash[:notice] << 'Deleted keychain because all members have left.'
