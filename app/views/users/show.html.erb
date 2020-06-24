@@ -33,14 +33,14 @@
             <% case my_membership.invite_status%>
             <% when 'pending' %>
               <td>
-                <%= form_with url: user_membership_path(my_membership), method: "patch" do |form| %>
+                <%= form_with url: user_membership_path(@user, my_membership), method: "patch" do |form| %>
                   <%= form.button 'Accept', value: 'accept', name: "invite_action", class: "btn btn-block btn-outline-warning" %>
                   <%= form.button 'Decline', value: 'decline', name: "invite_action", class: "btn btn-block btn-outline-warning" %>
                 <% end %>
               </td>
             <% when 'accepted' %>
               <td>
-                <%= form_with url: user_membership_path(my_membership), method: "patch" do |form| %>
+                <%= form_with url: user_membership_path(@user, my_membership), method: "patch" do |form| %>
                   <%if kc.active_members.count == 1%>
                     <%= form.button 'Leave and Delete Keychain', value: 'leave', name: 'invite_action', class: 'btn btn-block btn-outline-danger' %>
                   <%else%>

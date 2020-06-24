@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 # Manage Membership for users (keychain controller handles its membership)
-class User::MembershipController < ApplicationController
+class MembershipsController < ApplicationController
   before_action :login_required
-  before_action :resolve_membership_for_user
+  before_action :user_sub_item, only: :update
+  before_action :user_must_own_membership, only: :update
 
+  # User modification
   def update
     case params[:invite_action]
     when 'leave'
@@ -27,12 +29,21 @@ class User::MembershipController < ApplicationController
 
   private
 
-  # Set membership and check if user can access that membership
-  def resolve_membership_for_user
-    @membership = @user.memberships.find_by(id: params[:id])
-    return if @membership
+  # Set membership and check if user owns that membership
+  def user_must_own_membership
+    # User ID match
 
-    flash[:alert] = ['Invalid membership or not one of yours.']
-    redirect_to login_path, status: :bad_request
+    @membership = @user.memberships.find_by(id: params[:id])
+    return if @membership && @membership.invite_status != 'left'
+
+    alert_and_redirect('Invalid membership or user has left.', login_path, :bad_request)
   end
+
+  def user_sub_item
+    return if params[:user_id] && params[:user_id].to_i == @user.id
+
+    alert_and_redirect('Not your user', user_path(@user), :forbidden)
+  end
+
+
 end
