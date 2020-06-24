@@ -10,21 +10,14 @@ class MembershipsController < ApplicationController
   def update
     case params[:invite_action]
     when 'leave'
-      @membership.leave
-      flash[:notice] = ['Left keychain successfully.']
-      kc = @membership.keychain
-      if kc.active_members.count.zero? # No active members left
-        kc.destroy
-        flash[:notice] << 'Deleted keychain because all members have left.'
-      end
+      user_leave
     when 'accept'
       @membership.accept
-      flash[:notice] = ['Accepted invite successfully']
+      notice_and_redirect('Accepted invite successfully', user_path(@user))
     when 'decline'
       @membership.decline
-      flash[:notice] = ['Declined invite successfully']
+      notice_and_redirect('Declined invite successfully', user_path(@user))
     end
-    redirect_to user_path(@user)
   end
 
   private
@@ -45,5 +38,13 @@ class MembershipsController < ApplicationController
     alert_and_redirect('Not your user', user_path(@user), :forbidden)
   end
 
+  def user_leave
+    @membership.leave
+    flash[:notice] = ['Left keychain successfully.']
+    kc = @membership.keychain
+    return unless if kc.active_members.count.zero? # No active members left
 
+    kc.destroy
+    flash[:notice] << 'Deleted keychain because all members have left.'
+  end
 end
