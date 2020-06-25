@@ -6,7 +6,7 @@
   <div class='row mb-3'>
     <div class="col-sm-12">
       <%= form_with model: @account, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
-        <%= form.hidden_field(:keychain_id, value: @keychain.id) %>
+        <%= form.hidden_field(:account_keychain_id, value: @keychain.id) %>
         <%= form.label :name, "Account Name" %>
         <%= form.text_field :name, required: true, class: "form-control"%> <br>
         <%= form.label :url, "Url"%>

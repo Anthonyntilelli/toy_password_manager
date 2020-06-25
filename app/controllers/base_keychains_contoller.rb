@@ -4,7 +4,6 @@
 class BaseKeychainsContoller < ApplicationController
   before_action :login_required
 
-
   private
 
   def user_must_be_admin_of_keychain
