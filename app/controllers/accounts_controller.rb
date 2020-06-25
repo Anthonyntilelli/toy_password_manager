@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # Manage Membership for keychains
-class Keychain::AccountController < Keychain::SubController
+class AccountsController < BaseKeychainsContoller
+  # login_required via BaseKeychainsContoller
   before_action :resolve_keychain, only: %i[new create]
   before_action :resolve_keychain_and_account, except: %i[new create]
   before_action :keychain_members_only
