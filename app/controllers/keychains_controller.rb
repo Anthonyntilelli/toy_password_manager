@@ -53,7 +53,7 @@ class KeychainsController < ApplicationController
   # Sets @keychains and @user_membership
   # Redirects if user if not an active member.
   def keychain_membership_required
-    @keychain = @user.keychains.find_by(id: params[:id]&.to_i)
+    @keychain = @user.keychains.find_by(id: params[:id]&.to_i) || @user.keychains.find_by(id: params[:keychain_id]&.to_i)
     @user_membership = @keychain&.active_members&.find { |mem| mem.user == @user } if @keychain
     return if @user_membership
 

@@ -5,6 +5,8 @@ class MembershipsController < ApplicationController
   before_action :login_required
   before_action :user_sub_item, only: :update
   before_action :user_must_own_membership, only: :update
+  before_action :keychain_membership_required, only: %i[new create]
+  before_action :user_must_be_admin_of_keychain, only: %i[new create]
 
   # User modification
   def update
@@ -19,6 +21,19 @@ class MembershipsController < ApplicationController
       @membership.decline
       notice_and_redirect('Declined invite successfully', user_path(@user))
     end
+  end
+
+  # Keychain modification
+  def new; end
+
+  def create
+    @keychain.invite(
+      User.find_by(email: email_normalize(params[:membership][:user_email])),
+      params[:membership][:invite_as_admin] == '1'
+    )
+    notice_and_redirect('Invite sent', user_path(@user))
+  rescue ActiveRecord::RecordInvalid, RuntimeError => e
+    alert_and_redirect(e.message, keychain_path(@keychain), :bad_request)
   end
 
   private
@@ -46,5 +61,24 @@ class MembershipsController < ApplicationController
 
     kc.destroy
     flash[:notice] << 'Deleted keychain because all members have left.'
+  end
+
+  # Keychain
+
+  # Sets @keychains and @user_membership
+  # Redirects if user if not an active member
+  def keychain_membership_required
+    @keychain = @user.keychains.find_by(id: params[:id]&.to_i) || @user.keychains.find_by(id: params[:keychain_id]&.to_i)
+    @user_membership = @keychain&.active_members&.find { |mem| mem.user == @user } if @keychain
+    return if @user_membership
+
+    alert_and_redirect('Invalid Keychain or you are not an active member', user_path(@user), :bad_request)
+  end
+
+  def user_must_be_admin_of_keychain
+    return if @user_membership.admin
+
+    flash[:alert] = ['You must be an admin of the keychain to proceed.']
+    redirect_to login_path, status: :unauthorized
   end
 end
