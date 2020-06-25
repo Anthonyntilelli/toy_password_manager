@@ -35,3 +35,6 @@ Style/RedundantRegexpCharacterClass:
 Style/RedundantRegexpEscape:
   Enabled: true
 
+# Modifications
+Metrics/MethodLength:
+  Max: 15

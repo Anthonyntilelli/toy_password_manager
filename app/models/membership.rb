@@ -6,8 +6,13 @@ class Membership < ApplicationRecord
   belongs_to :keychain
 
   validates :keychain, presence: true
-  validates :user, presence: true, uniqueness: { scope: :keychain, message: 'is already a member or declined membership.' }
-  validates :invite_status, inclusion: { in: %w[pending accepted declined left], message: '%{value} is not a valid status' }
+  validates :user, presence: true, uniqueness: {
+    scope: :keychain, message: 'is already a member or declined membership.'
+  }
+  validates :invite_status, inclusion: {
+    in: %w[pending accepted declined left],
+    message: 'Valid status are only pending, accepted, declined, left'
+  }
   validates :admin, inclusion: { in: [true, false] } # boolean validation
 
   def decline

@@ -11,7 +11,7 @@
   <div class='row mb-3'>
     <div class="col-sm-12">
       <%= form_with model: @keychain, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
-        <%= form.hidden_field(:update_name) %>
+        <%= form.hidden_field(:update_action, value: 'name') %>
         <%= form.text_field :name, required: true, class: "form-control"%> <br>
         <%= form.submit "Change Name", class: "btn btn-primary btn-lg btn-block" %>
       <% end %>
@@ -25,7 +25,7 @@
   </div>
 
   <%= form_with model: @keychain, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
-    <%= form.hidden_field(:update_admins) %>
+    <%= form.hidden_field(:update_action, value: 'admins') %>
     <table class="table">
       <thead class="thead-dark">
         <tr>
