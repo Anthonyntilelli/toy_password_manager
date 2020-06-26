@@ -1,0 +1,30 @@
+<main class="container">
+  <%= render partial: 'layouts/top', locals: {title: "Inactive Members for Keychain: #{@keychain.name}" } %>
+
+  <% if @keychain_users.empty? %>
+    <div class='row mb-3'>
+      <p class='col-12'>There are no <%=@user_type%> members for this keychain. </p>
+    </div>
+  <% else %>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Invite Status</th>
+        </tr>
+      </thead>
+      <% @keychain_users.each do |mem| %>
+        <tbody>
+          <tr>
+            <td class="text-center"><%=mem.user.name%></td>
+            <td class="text-center"><%=mem.user.email%></td>
+            <td class="text-center"><%=mem.invite_status%></td>
+          </tr>
+        </tbody>
+      <%end%>
+    </table>
+  <% end %>
+
+  <%= render partial: 'layouts/footer', locals: {show: 'keychain'} %>
+</main>

@@ -18,7 +18,9 @@ Specs:
   - User can manage their invite and admin status in membership
 - [x] Include reasonable validations for simple model objects (list of model objects with validations e.g. User, Recipe, Ingredient, Item)
   - All models have a level of validation
-- [ ] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
+- [x] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
+   - keychains#active_members
+   - keychains#inactive_members
 - [x] Include signup
 - [x] Include login
 - [x] Include logout
@@ -40,3 +42,4 @@ Confirm:
     - layout/top
     - layout/footer
     - layouts/btn_primary
+    - keychains/button_admin

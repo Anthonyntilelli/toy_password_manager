@@ -4,12 +4,24 @@
 class KeychainsController < BaseKeychainsContoller
   # login_required via BaseKeychainsContoller
   before_action :keychain_membership_required, except: %i[new create] # keep second
-  before_action :user_must_be_admin_of_keychain, only: %i[edit destroy update]
+  before_action :user_must_be_admin_of_keychain, only: %i[edit destroy update inactive_users active_users]
   before_action :check_additional_admins_on_create, only: :create
 
   def show; end
 
   def new; end
+
+  def inactive_members
+    @user_type = 'inactive'
+    @keychain_users = @keychain.inactive_members
+    render 'activity_members'
+  end
+
+  def active_members
+    @user_type = 'active'
+    @keychain_users = @keychain.active_members
+    render 'activity_members'
+  end
 
   def create
     @keychain = Keychain.new(params.require(:keychain).permit(:name))
