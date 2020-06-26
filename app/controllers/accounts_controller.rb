@@ -21,9 +21,9 @@ class AccountsController < BaseKeychainsContoller
 
   def update
     if @account.update(update_params)
-      notice_and_redirect('Account update completed', keychain_account_path(@account))
+      notice_and_redirect('Account update completed', keychain_account_path(@keychain, @account))
     else
-      multple_alerts_and_redirect(@account.errors.full_messages, keychain_account_path(@account), :bad_request)
+      multi_alerts_and_redirect(@account.errors.full_messages, keychain_account_path(@keychain, @account), :bad_request)
     end
   end
 
@@ -35,7 +35,7 @@ class AccountsController < BaseKeychainsContoller
   private
 
   def update_params
-    params.require(:account).permit(:account_keychain_id, :name, :url, :username, :password)
+    params.require(:account).permit(:name, :url, :username, :password)
   end
 
   def create_params
@@ -43,11 +43,9 @@ class AccountsController < BaseKeychainsContoller
   end
 
   def resolve_account
-    byebug
     @account = @keychain.accounts.find_by(id: params[:id])
     return if @account.is_a?(Account)
 
-    flash[:alert] = ['Invalid account or not part of this keychain']
-    redirect_to login_path, status: :unauthorized
+    alert_and_redirect('Invalid account or not part of this keychain', login_path, :unauthorized)
   end
 end

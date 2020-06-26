@@ -29,8 +29,7 @@ class SessionsController < ApplicationController
 
     return session_and_show_user if @user.valid? && @user.persisted?
 
-    flash[:alert] = @user.errors.full_messages
-    redirect_to root_url, status: :bad_request
+    multi_alerts_and_redirect(@user.errors.full_messages, root_url, :bad_request)
   end
 
   private

@@ -15,8 +15,7 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       return redirect_to user_path(user)
     end
-    flash[:alert] = user.errors.full_messages
-    redirect_to signup_path, status: :bad_request
+    multi_alerts_and_redirect(user.errors.full_messages, signup_path, :bad_request)
   end
 
   def show; end
@@ -27,8 +26,7 @@ class UsersController < ApplicationController
     if @user.update(params_strong)
       notice_and_redirect('Update Successfull', edit_user_path(@user))
     else
-      flash[:alert] = @user.errors.full_messages
-      redirect_to edit_user_path(@user), status: :bad_request
+      multi_alerts_and_redirect(@user.errors.full_messages, edit_user_path(@user), :bad_request)
     end
   end
 

@@ -20,6 +20,8 @@ class MembershipsController < BaseKeychainsContoller
     when 'decline'
       @membership.decline
       notice_and_redirect('Declined invite successfully', user_path(@user))
+    else
+      alert_and_redirect('Unknown Action', user_path(@user), :bad_request)
     end
   end
 
