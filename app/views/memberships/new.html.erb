@@ -16,11 +16,5 @@
     </div>
   </div>
 
-  <hr class='mb-3'>
-  <div class='row my-3'>
-    <%= link_to 'Back to Keychain list', user_path(@user), :class => "btn btn-secondary btn-sm col-sm-12" %>
-  </div>
-  <div class='row my-3'>
-    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
-  </div>
+  <%= render partial: 'layouts/footer', locals: {show: nil} %>
 </main>

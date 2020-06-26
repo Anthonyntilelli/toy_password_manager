@@ -1,0 +1,26 @@
+<footer>
+  <hr class='mb-3'>
+
+  <% if @account&.id && show != 'account' %>
+    <div class='row my-3'>
+      <%= link_to "Back to #{@account.name}", keychain_account_path(@account), class: "btn btn-secondary btn-sm col-sm-12" %>
+    </div>
+  <% end %>
+
+
+  <% if @keychain&.id && show != 'keychain' %>
+    <div class='row my-3'>
+      <%= link_to 'Back to Keychain ', keychain_path(@keychain), class: "btn btn-secondary btn-sm col-sm-12" %>
+    </div>
+  <% end %>
+
+  <% if @user&.id && show != 'user'%>
+    <div class='row my-3'>
+      <%= link_to 'Back to keychain list', user_path(@user), :class => "btn btn-secondary btn-sm col-sm-12" %>
+    </div>
+  <%end%>
+
+  <div class='row my-3'>
+    <%= link_to 'Frontpage', root_path, :class => "btn btn-secondary btn-sm col-sm-12" %>
+  </div>
+</footer>
