@@ -35,8 +35,11 @@ Style/RedundantRegexpCharacterClass:
 Style/RedundantRegexpEscape:
   Enabled: true
 Style/RedundantFetchBlock:
-  Enabled: true
+  Enabled: false
 
 # Modifications
 Metrics/MethodLength:
   Max: 15
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+# All Unique are scoped
