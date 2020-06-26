@@ -1,14 +1,14 @@
 <main class="container">
   <div class='row mb-4'>
-    <% if logged_in? %>
-      <h3>Welcome Back: <%=get_user.name%></h3>
+    <% if @user %>
+      <h3>Welcome Back: <%=@user.name%></h3>
     <% else %>
       <h3>Login Required:</h3>
     <%end%>
   </div>
-  <% if logged_in? %>
+  <% if @user %>
     <div class='row mb-4'>
-      <%= link_to 'Open your keychains', user_path(get_user) , class: "btn btn-primary btn-lg btn-block" %>
+      <%= link_to 'Open your keychains', user_path(@user) , class: "btn btn-primary btn-lg btn-block" %>
     </div>
     <div class='row mb-4'>
       <%= form_with url: logout_url, method: 'post', class: 'col-12' do |form| %>
@@ -16,15 +16,9 @@
       <% end %>
     </div>
   <% else %>
-    <div class='row mb-4'>
-      <%= link_to 'Login', login_url, class: "btn btn-primary btn-lg btn-block" %>
-    </div>
-    <div class='row mb-4'>
-      <%= link_to 'Sign Up', signup_url, class: "btn btn-primary btn-lg btn-block" %>
-    </div>
-    <div class='row mb-4'>
-      <%= link_to "Login/Signup with Github", "/auth/github" , class: "btn btn-primary btn-lg btn-block" %>
-    </div>
+    <%= render partial: 'layouts/btn_primary', locals: {text: 'Login', url: login_url } %>
+    <%= render partial: 'layouts/btn_primary', locals: {text: 'Signup', url: signup_url } %>
+    <%= render partial: 'layouts/btn_primary', locals: {text: 'Login/Signup with Github', url: '/auth/github' } %>
   <%end%>
 
   <hr class="mb-4">

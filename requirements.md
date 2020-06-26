@@ -35,9 +35,8 @@ Confirm:
 - [x] The application is pretty DRY
 - [x] Limited logic in controllers
    - Using methods in models
-- [x] Views use helper methods if appropriate
-    - `keychain_admin?` (keychain_helper)
-    - `logged_in?` (application_helper)
+- [ ] Views use helper methods if appropriate
 - [x] Views use partials if appropriate
     - layout/top
     - layout/footer
+    - layouts/btn_primary

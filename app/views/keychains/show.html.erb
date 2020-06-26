@@ -24,11 +24,10 @@
     </table>
   <%end%>
 
-  <div class='row my-3'>
-    <%= link_to 'Create an account', new_keychain_account_path(@keychain), :class => "btn btn-primary btn-lg btn-block" %>
-  </div>
+  <%= render partial: 'layouts/btn_primary', locals: {text: 'Create an account', url: new_keychain_account_path(@keychain) } %>
 
-  <% if keychain_admin?(@keychain, @user.id) %>
+
+  <% if @user_membership.admin %>
     <div class='row mb-3'>
       <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
     </div>

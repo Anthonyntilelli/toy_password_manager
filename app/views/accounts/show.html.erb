@@ -17,9 +17,7 @@
     <p class=" col-12 text-left"><strong>Account Password:</strong> <%= @account.password %></p>
   </div>
 
-  <div class='row mb-3'>
-    <%= link_to 'Edit Account', edit_keychain_account_path(@keychain.id, @account.id), class: "btn btn-primary btn-lg btn-block" %>
-  </div>
+  <%= render partial: 'layouts/btn_primary', locals: {text: 'Edit Account', url: edit_keychain_account_path(@keychain.id, @account.id) } %>
 
   <%= render partial: 'layouts/footer', locals: {show: 'account'} %>
 </main>

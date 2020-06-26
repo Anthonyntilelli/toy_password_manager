@@ -82,7 +82,8 @@ class KeychainsController < BaseKeychainsContoller
       mem.admin = changes[mem.id.to_s] == '1'
       mem.save!
     end
-    notice_and_redirect('Updated Admins', edit_keychain_path(@keychain))
+    route = @user_membership.admin ? edit_keychain_path(@keychain) : keychain_path(@keychain)
+    notice_and_redirect('Updated Admins', route)
   end
 
   def update_name(parsed_params)
