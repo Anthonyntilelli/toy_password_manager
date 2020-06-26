@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Manages and validates Keychains
+# Manages and validates Keychain
 class Keychain < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :accounts, dependent: :destroy
@@ -9,11 +9,18 @@ class Keychain < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 200 }
   after_validation :normalize_name
 
+  # invite multiple users, all with same admin_bool
+  def mass_invite(users, admin_bool)
+    raise 'users much be an array' unless users.is_a?(Array)
+
+    # return created memberships
+    users.collect { |user| invite(user, admin_bool) }
+  end
+
   # Invite users to Keychain
-  def invite(user, admin_bool, re_invite = false)
+  def invite(user, admin_bool)
     raise 'User not found' unless user.is_a?(User) && user.valid?
 
-    memberships.find_by(user_id: user.id).destroy if re_invite
     memberships.create!(user_id: user.id, admin: admin_bool, invite_status: 'pending')
     memberships.find_by(user_id: user.id) # return created membership
   end

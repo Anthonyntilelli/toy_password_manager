@@ -6,7 +6,6 @@
   <div class='row mb-3'>
     <div class="col-sm-12">
       <%= form_with model: @account, url: {action: "update"}, class: ['col-12', 'needs-validation'] do |form| %>
-        <%= form.hidden_field(:keychain_id, value: @keychain.id) %>
         <%= form.label :name, "Account Name" %>
         <%= form.text_field :name, required: true, class: "form-control"%> <br>
         <%= form.label :url, "Url"%>
@@ -22,7 +21,7 @@
 
   <div class='row mb-3'>
     <div class="col-sm-12">
-      <%= form_with url: keychain_account_path(@account), method: 'delete' do |form| %>
+      <%= form_with url: keychain_account_path(@keychain.id, @account.id), method: 'delete' do |form| %>
         <%= form.submit "Delete this account/password", class: "btn btn-danger btn-lg btn-block" %>
       <% end %>
     </div>
