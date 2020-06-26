@@ -1,7 +1,6 @@
 <main class="container">
-  <div class='row mb-3'>
-      <h2 class=" col-12 display-3 text-center">Keychain: <%= @keychain.name %></h2>
-  </div>
+  <%= render partial: 'layouts/top', locals: {title: "Keychain: #{@keychain.name}" } %>
+
   <% if @keychain.accounts.empty? %>
     <div class='row mb-3'>
       <p class='col-12'>There are no accounts in this keychain, you should add some. </p>

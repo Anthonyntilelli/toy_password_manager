@@ -1,7 +1,5 @@
 <main class="container">
-  <div class='row mb-3'>
-      <h2 class=" col-12 display-3 text-center"> Add members to <%= @keychain.name%> Keychain </h2>
-  </div>
+  <%= render partial: 'layouts/top', locals: {title: "Add members to #{@keychain.name} Keychain" } %>
 
   <div class='row mb-3'>
     <div class="col-sm-12">

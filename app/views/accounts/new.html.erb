@@ -1,7 +1,5 @@
 <main class="container">
-  <div class='row mb-3'>
-      <h2 class=" col-12 display-3 text-center"> Create New Accout for <%= @keychain.name %></h2>
-  </div>
+  <%= render partial: 'layouts/top', locals: {title: "Create New Accout for #{@keychain.name}" } %>
 
   <div class='row mb-3'>
     <div class="col-sm-12">

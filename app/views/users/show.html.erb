@@ -1,7 +1,6 @@
 <main class="container">
-  <div class='row mb-3'>
-      <h2 class=" col-12 display-3 text-center">Hello <%= @user.name %></h2>
-  </div>
+  <%= render partial: 'layouts/top', locals: {title: "Hello #{@user.name}"} %>
+
   <% if @user.keychains.empty? %>
     <div class='row mb-3'>
       <p class='col-12'>Your are not part of any keychains ask admins to invite you or create your own.</p>
