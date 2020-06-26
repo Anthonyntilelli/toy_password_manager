@@ -26,13 +26,13 @@
 
   <%= render partial: 'layouts/btn_primary', locals: {text: 'Create an account', url: new_keychain_account_path(@keychain) } %>
 
-
   <% if @user_membership.admin %>
-    <div class='row mb-3'>
-      <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
-    </div>
-    <div class='row mb-3'>
-      <%= link_to 'Admin: Invite new member', new_keychain_membership_path(@keychain.id), class: "btn btn-warning btn-lg btn-block" %>
+    <div class='row d-flex justify-content-center'>
+      <h3 class='col text-center text-warning font-weight-bold'>Admin:</h3>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'View active users', url: keychains_active_users_path(@keychain.id) } %>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'View inactive users', url: keychains_inactive_users_path(@keychain.id) } %>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'Edit keychain', url: edit_keychain_path(@keychain) } %>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'Invite new member', url: new_keychain_membership_path(@keychain.id) } %>
     </div>
   <% end %>
 
