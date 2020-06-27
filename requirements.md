@@ -37,7 +37,9 @@ Confirm:
 - [x] The application is pretty DRY
 - [x] Limited logic in controllers
    - Using methods in models
-- [ ] Views use helper methods if appropriate
+- [x] Views use helper methods if appropriate
+  - logged_in?
+  - active_user
 - [x] Views use partials if appropriate
     - layout/top
     - layout/footer
