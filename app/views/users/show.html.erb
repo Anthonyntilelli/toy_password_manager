@@ -1,7 +1,6 @@
 <main class="container">
-  <div class='row mb-3'>
-      <h2 class=" col-12 display-3 text-center">Hello <%= @user.name %></h2>
-  </div>
+  <%= render partial: 'layouts/top', locals: {title: "Hello #{@user.name}"} %>
+
   <% if @user.keychains.empty? %>
     <div class='row mb-3'>
       <p class='col-12'>Your are not part of any keychains ask admins to invite you or create your own.</p>
@@ -22,7 +21,7 @@
         <tbody>
           <tr>
             <% if my_membership.invite_status == 'accepted' %>
-              <td scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary btn-block" %></td>
+              <td scope="row"><%= link_to kc.name, keychain_path(kc), class: "btn btn-outline-primary btn-block" %></td>
             <% else %>
               <td scope="row"><span class="text-muted"><%= kc.name %></span></td>
             <%end%>
@@ -58,16 +57,7 @@
     </table>
   <%end%>
 
-  <div class='row my-3'>
-    <%= link_to 'Create a keychain', new_keychain_path, :class => "btn btn-primary btn-lg btn-block" %>
-  </div>
-
-  <div class='row mb-3'>
-    <%= link_to 'Edit Your account', edit_user_path(get_user), class: "btn btn-primary btn-lg btn-block" %>
-  </div>
-
-  <hr class='mb-3'>
-  <div class='row my-3'>
-    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
-  </div>
+  <%= render partial: 'layouts/btn_primary', locals: {text: 'Create a keychain', url: new_keychain_path } %>
+  <%= render partial: 'layouts/btn_primary', locals: {text: 'Edit Your account', url: edit_user_path(@user) } %>
+  <%= render partial: 'layouts/footer', locals: {show: 'user'} %>
 </main>

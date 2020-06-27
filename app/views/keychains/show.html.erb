@@ -1,7 +1,6 @@
 <main class="container">
-  <div class='row mb-3'>
-      <h2 class=" col-12 display-3 text-center">Keychain: <%= @keychain.name %></h2>
-  </div>
+  <%= render partial: 'layouts/top', locals: {title: "Keychain: #{@keychain.name}" } %>
+
   <% if @keychain.accounts.empty? %>
     <div class='row mb-3'>
       <p class='col-12'>There are no accounts in this keychain, you should add some. </p>
@@ -17,7 +16,7 @@
         <% @keychain.accounts.each do |acnt| %>
           <tbody>
             <tr>
-              <th scope="row"><%= link_to acnt.name, keychain_account_path(@keychain.id, acnt.id), :class => "btn btn-block btn-outline-primary" %></th>
+              <th scope="row"><%= link_to acnt.name, keychain_account_path(@keychain.id, acnt.id), class: "btn btn-block btn-outline-primary" %></th>
               <td class="text-center"><%=acnt.url%></td>
             </tr>
           </tbody>
@@ -25,21 +24,17 @@
     </table>
   <%end%>
 
-  <div class='row my-3'>
-    <%= link_to 'Create an account', new_keychain_account_path(@keychain), :class => "btn btn-primary btn-lg btn-block" %>
-  </div>
+  <%= render partial: 'layouts/btn_primary', locals: {text: 'Create an account', url: new_keychain_account_path(@keychain) } %>
 
-  <% if keychain_admin?(@keychain, @user.id) %>
-    <div class='row mb-3'>
-      <%= link_to 'Admin: Edit keychain', edit_keychain_path(@keychain), class: "btn btn-warning btn-lg btn-block" %>
-    </div>
-    <div class='row mb-3'>
-      <%= link_to 'Admin: Invite new member', new_keychain_membership_path(@keychain.id), class: "btn btn-warning btn-lg btn-block" %>
+  <% if @user_membership.admin %>
+    <div class='row d-flex justify-content-center'>
+      <h3 class='col text-center text-warning font-weight-bold'>Admin:</h3>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'View active members', url: keychains_active_members_path(@keychain.id) } %>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'View inactive members', url: keychains_inactive_members_path(@keychain.id) } %>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'Edit keychain', url: edit_keychain_path(@keychain) } %>
+      <%= render partial: 'keychains/btn_admin', locals: {text: 'Invite new member', url: new_keychain_membership_path(@keychain.id) } %>
     </div>
   <% end %>
 
-  <hr class='mb-3'>
-  <div class='row my-3'>
-    <%= link_to 'Frontpage', '/' , :class => "btn btn-secondary btn-sm col-sm-12" %>
-  </div>
+  <%= render partial: 'layouts/footer', locals: {show: 'keychain'} %>
 </main>

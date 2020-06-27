@@ -17,14 +17,8 @@ Rails.application.routes.draw do
     resources :memberships, only: %i[new create]
   end
 
-  # namespace :user do
-  #   resources :membership, only: [:update]
-  # end
-  # resources :keychain, only: %i[show new update edit create destroy]
-  # namespace :keychain do # BAD
-  #   resources :membership, only: %i[new create]
-  #  # resources :account, only: %i[new create show update edit destroy]
-  # end
+  get '/keychains/:id/active_members' => 'keychains#active_members', as: :keychains_active_members
+  get '/keychains/:id/inactive_members' => 'keychains#inactive_members', as: :keychains_inactive_members
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

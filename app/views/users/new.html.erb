@@ -1,9 +1,6 @@
 <main class="container">
-  <div class='row mb-3'>
-    <div class="col-12">
-      <h2 class="display-3 text-center">Welcome to Toy Password manager</h2>
-    </div>
-  </div>
+  <%= render partial: 'layouts/top', locals: {title: 'Join the Fun'} %>
+
   <div class='row mb-3'>
     <div class="col-12">
       <p class="text-center"><strong>Important: </strong> This is a toy password manager and everything is stored in plain text. <strong>Do not </strong> store any real info here </p>
@@ -28,8 +25,5 @@
     </div>
   </div>
 
-  <hr>
-  <div class='row my-3'>
-    <%= link_to 'Frontpage', '/', :class => "btn btn-secondary btn-sm col-sm-12" %>
-  </div>
+  <%= render partial: 'layouts/footer', locals: {show: nil} %>
 </main>
