@@ -1,18 +1,19 @@
 <main class="container">
+  <% user = active_user %>
   <div class='row mb-4'>
-    <% if @user %>
-      <h3>Welcome Back: <%=@user.name%></h3>
+    <% if logged_in? %>
+      <h3>Welcome Back: <%=user.name%></h3>
     <% else %>
       <h3>Login Required:</h3>
     <%end%>
   </div>
-  <% if @user %>
+  <% if logged_in? %>
     <div class='row mb-4'>
-      <%= link_to 'Open your keychains', user_path(@user) , class: "btn btn-primary btn-lg btn-block" %>
+      <%= link_to 'Open your keychains', user_path(user), class: "btn btn-primary btn-lg btn-block" %>
     </div>
     <div class='row mb-4'>
       <%= form_with url: logout_url, method: 'post', class: 'col-12' do |form| %>
-        <input type="submit" value='logout'  class="btn btn-secondary btn-lg btn-block">
+        <input type='submit' value='logout'  class='btn btn-secondary btn-lg btn-block'>
       <% end %>
     </div>
   <% else %>

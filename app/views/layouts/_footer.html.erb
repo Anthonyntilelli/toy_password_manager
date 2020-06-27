@@ -16,11 +16,11 @@
 
   <% if @user&.id && show != 'user'%>
     <div class='row my-3'>
-      <%= link_to 'Back to keychain list', user_path(@user), :class => "btn btn-secondary btn-sm col-sm-12" %>
+      <%= link_to 'Back to keychain list', user_path(@user), class: "btn btn-secondary btn-sm col-sm-12" %>
     </div>
   <%end%>
 
   <div class='row my-3'>
-    <%= link_to 'Frontpage', root_path, :class => "btn btn-secondary btn-sm col-sm-12" %>
+    <%= link_to 'Frontpage', root_path, class: "btn btn-secondary btn-sm col-sm-12" %>
   </div>
 </footer>

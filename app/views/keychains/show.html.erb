@@ -16,7 +16,7 @@
         <% @keychain.accounts.each do |acnt| %>
           <tbody>
             <tr>
-              <th scope="row"><%= link_to acnt.name, keychain_account_path(@keychain.id, acnt.id), :class => "btn btn-block btn-outline-primary" %></th>
+              <th scope="row"><%= link_to acnt.name, keychain_account_path(@keychain.id, acnt.id), class: "btn btn-block btn-outline-primary" %></th>
               <td class="text-center"><%=acnt.url%></td>
             </tr>
           </tbody>

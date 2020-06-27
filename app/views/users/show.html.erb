@@ -21,7 +21,7 @@
         <tbody>
           <tr>
             <% if my_membership.invite_status == 'accepted' %>
-              <td scope="row"><%= link_to kc.name, keychain_path(kc), :class => "btn btn-outline-primary btn-block" %></td>
+              <td scope="row"><%= link_to kc.name, keychain_path(kc), class: "btn btn-outline-primary btn-block" %></td>
             <% else %>
               <td scope="row"><span class="text-muted"><%= kc.name %></span></td>
             <%end%>
