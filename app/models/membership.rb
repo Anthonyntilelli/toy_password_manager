@@ -15,6 +15,10 @@ class Membership < ApplicationRecord
   }
   validates :admin, inclusion: { in: [true, false] } # boolean validation
 
+  scope :active, -> { where(invite_status: 'accepted') }
+  scope :inactive, -> { where.not(invite_status: 'accepted') }
+  scope :active_admin, -> { where(admin: true, invite_status: 'accepted') }
+
   def decline
     pending?
     # Remove admin also on decline

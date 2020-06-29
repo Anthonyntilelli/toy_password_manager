@@ -32,11 +32,11 @@ class Keychain < ApplicationRecord
   end
 
   def active_members
-    memberships.where(invite_status: 'accepted')
+    memberships.active
   end
 
   def inactive_members
-    memberships.where.not(invite_status: 'accepted')
+    memberships.inactive
   end
 
   def admin?(user)
