@@ -31,13 +31,12 @@ class Keychain < ApplicationRecord
     accounts.create!(account_hash)
   end
 
-  # returns list of all active memberships
   def active_members
-    memberships.select { |mem| mem.invite_status == 'accepted' }
+    memberships.where(invite_status: 'accepted')
   end
 
   def inactive_members
-    memberships.reject { |mem| mem.invite_status == 'accepted' }
+    memberships.where.not(invite_status: 'accepted')
   end
 
   def admin?(user)
