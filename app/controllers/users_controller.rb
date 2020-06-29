@@ -10,7 +10,8 @@ class UsersController < ApplicationController
   def new; end
 
   def create
-    user = User.new(params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation))
+    user = User.new(params_create)
+    user.dummy_password = false
     if user.save # User created
       session[:user_id] = user.id
       return redirect_to user_path(user)
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
   def edit; end
 
   def update
-    if @user.update(params_strong)
+    if @user.update(params_update)
       notice_and_redirect('Update Successfull', edit_user_path(@user))
     else
       multi_alerts_and_redirect(@user.errors.full_messages, edit_user_path(@user), :bad_request)
@@ -39,8 +40,12 @@ class UsersController < ApplicationController
 
   private
 
-  def params_strong
+  def params_update
     params.require(:user).permit(:password, :password_confirmation, :name)
+  end
+
+  def params_create
+    params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation)
   end
 
   # params id must match @user.id
@@ -53,7 +58,7 @@ class UsersController < ApplicationController
   def require_current_password
     # Skip Current Password Check
     return if @user.dummy_password
-    return if action_name == 'update' && params_strong[:password].nil?
+    return if action_name == 'update' && params_update[:password].nil?
     # Valid current password
     return if @user.authenticate(params[:user][:current_password])
 
