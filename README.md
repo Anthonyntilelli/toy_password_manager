@@ -1,26 +1,26 @@
-# Toy Password Manager
+#  Toy Password Manager
 
-- A simple password manager for Flatiron Rails project
+A simple password manager for Flatiron Rails project. Please do not use the password manager for any real usage.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Installation
 
-Things you may want to cover:
+The package manager is [gems](https://rubygems.org/) managed by [bundler](https://bundler.io/).
 
-* Ruby version
+1. Clone this project
+2. Get [Github Oauth key](https://github.com/omniauth/omniauth-github)
+3. Fill in `.env.example` and rename to `.env`
+4. Run bash below
+```bash
+bundler install
+bundler exec rails db:migrate
+bundler exec rails db:seed # if you want test users
+```
 
-* System dependencies
+## Usage
 
-* Configuration
+```bash
+bundler exec rails s
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
