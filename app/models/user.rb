@@ -44,7 +44,7 @@ class User < ApplicationRecord
       password: dummy_password, password_confirmation: dummy_password,
       dummy_password: true
     )
-    user.save
+    user.save!
     user
   end
 
