@@ -10,11 +10,16 @@ class Keychain < ApplicationRecord
   after_validation :normalize_name
 
   # invite multiple users, all with same admin_bool
-  def mass_invite(users, admin_bool)
-    raise 'users much be an array' unless users.is_a?(Array)
+  # Creator of keychain is auto accepted and always admin.
+  def self.create_with_mass_invite(name, creator, other_users, admin_bool)
+    raise 'Other_users much be an array' unless other_users.is_a?(Array)
+    raise 'Creater is in other_users list' if other_users.any?(creator)
 
-    # return created memberships
-    users.collect { |user| invite(user, admin_bool) }
+    new_keychain = Keychain.create!(name: name)
+    new_keychain.invite(creator, true).accept
+    # mass assign
+    other_users.each { |user| new_keychain.invite(user, admin_bool) } unless other_users.empty?
+    new_keychain
   end
 
   # Invite users to Keychain
@@ -31,13 +36,12 @@ class Keychain < ApplicationRecord
     accounts.create!(account_hash)
   end
 
-  # returns list of all active memberships
   def active_members
-    memberships.select { |mem| mem.invite_status == 'accepted' }
+    memberships.active
   end
 
   def inactive_members
-    memberships.reject { |mem| mem.invite_status == 'accepted' }
+    memberships.inactive
   end
 
   def admin?(user)

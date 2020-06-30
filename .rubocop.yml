@@ -3,6 +3,7 @@ require: rubocop-rails
 AllCops:
   Exclude:
   - db/schema.rb
+  - bin/*
 
 Style/HashEachMethods:
   Enabled: true
@@ -40,6 +41,6 @@ Style/RedundantFetchBlock:
 # Modifications
 Metrics/MethodLength:
   Max: 15
+  # All Unique are scoped
 Rails/UniqueValidationWithoutIndex:
   Enabled: false
-# All Unique are scoped
