@@ -4,8 +4,7 @@
 class KeychainsController < BaseKeychainsContoller
   # login_required via BaseKeychainsContoller
   before_action :keychain_membership_required, except: %i[new create] # keep second
-  before_action :user_must_be_admin_of_keychain, only: %i[edit destroy update inactive_users active_users]
-  before_action :check_additional_admins_on_create, only: :create
+  before_action :user_must_be_admin_of_keychain, only: %i[edit destroy update inactive_members active_members]
 
   def show; end
 
@@ -24,27 +23,25 @@ class KeychainsController < BaseKeychainsContoller
   end
 
   def create
-    @keychain = Keychain.new(params.require(:keychain).permit(:name))
-    if @keychain.save
-      @keychain.invite(@user, true).accept # creator of keychain is auto accepted
-      @keychain.mass_invite(@pending_admins, true)
-      notice_and_redirect('Keychain Completed', keychain_path(@keychain))
-    else
-      multi_alerts_and_redirect(@keychain.errors.full_messages, new_keychain_path, :bad_request)
-    end
+    parsed = create_params_normalized
+    pending_admins = create_emails_to_user(parsed[:emails])
+
+    @keychain = Keychain.create_with_mass_invite(parsed[:name], @user, pending_admins, true)
+    notice_and_redirect('Keychain Completed', keychain_path(@keychain))
+  rescue ActiveRecord::RecordInvalid, RuntimeError => e
+    alert_and_redirect(e.message, new_keychain_path, :bad_request)
   end
 
   def edit; end
 
   def update
-    parsed_params = params.require(:keychain).permit!
     case params[:keychain][:update_action]
     when 'name'
-      update_name(parsed_params)
+      update_name(update_name_params)
     when 'admins'
-      update_admins(parsed_params.to_h)
+      update_admins(update_admin_params_to_hash)
     else
-      alert_and_redirect('UNKNOWN Update', edit_keychain_path(@keychain))
+      alert_and_redirect('Unknown update action', edit_keychain_path(@keychain))
     end
   end
 
@@ -55,53 +52,60 @@ class KeychainsController < BaseKeychainsContoller
 
   private
 
-  def check_additional_admins_on_create
-    list = params.require(:keychain).permit(:name, :email_1, :email_2, :email_3, :email_4)
-    pending_emails = [
-      email_normalize(list[:email_1]),
-      email_normalize(list[:email_2]),
-      email_normalize(list[:email_3]),
-      email_normalize(list[:email_4])
-    ]
-    populate_pending_admins(pending_emails)
+  # Converts params to hash and normalize email
+  def create_params_normalized
+    pending = params.require(:keychain).permit(:name, :email_1, :email_2, :email_3, :email_4)
+    {
+      name: pending[:name],
+      emails: [
+        email_normalize(pending[:email_1]),
+        email_normalize(pending[:email_2]),
+        email_normalize(pending[:email_3]),
+        email_normalize(pending[:email_4])
+      ]
+    }
   end
 
-  def populate_pending_admins(emails)
+  def create_emails_to_user(email_array)
     email_error = []
-    @pending_admins = []
-    emails.each_with_index do |pa, index|
-      next if pa.empty?
+    users = email_array.collect do |email|
+      next if email.empty?
 
-      user = User.find_by(email: pa)
-      email_error << "Email #{index + 1} is not a valid user" unless user
-      email_error << "Email #{index + 1} must not be you, you are already an Admin" if user == @user
-      @pending_admins << user
+      user = User.find_by(email: email)
+      email_error << "Email #{email} is not a valid user" unless user
+      email_error << 'You must not be listed in optional admins, you are already an Admin' if user == @user
+      user
     end
-    return if email_error.empty?
+    return users.compact if email_error.empty?
 
-    multi_alerts_and_redirect(email_error, new_keychain_path, :bad_request)
+    raise email_error.join(', ')
+  end
+
+  def update_admin_params_to_hash
+    # Only membership ids
+    ids = @keychain.active_members.collect { |mem| mem.id.to_s }
+    params.require(:keychain).permit(ids).to_h
+  end
+
+  def update_name_params
+    params.require(:keychain).permit(:name)
   end
 
   def update_admins(parsed_hsh)
-    # Removes non-id (:update_action)
-    changes = parsed_hsh.reject { |k, _v| k.to_i.zero? }
-    # Change would remove all admins
-    unless changes.any? { |_k, v| v == '1' }
+    # check if change would remove all admins
+    unless parsed_hsh.any? { |_k, v| v == '1' }
       return alert_and_redirect('There must be at least one admin', edit_keychain_path(@keychain), :bad_request)
     end
 
     @keychain.active_members.each do |mem|
-      mem.admin = changes[mem.id.to_s] == '1'
+      mem.admin = parsed_hsh[mem.id.to_s] == '1'
       mem.save!
     end
-    route = @user_membership.admin ? edit_keychain_path(@keychain) : keychain_path(@keychain)
-    notice_and_redirect('Updated Admins', route)
+    notice_and_redirect('Updated Admins', keychain_path(@keychain))
   end
 
   def update_name(parsed_params)
-    if @keychain.update(name: parsed_params[:name])
-      return notice_and_redirect('Updated Name', edit_keychain_path(@keychain))
-    end
+    return notice_and_redirect('Updated Name', keychain_path(@keychain)) if @keychain.update(name: parsed_params[:name])
 
     multi_alerts_and_redirect(@keychain.errors.full_messages, edit_keychain_path(@keychain), :bad_request)
   end
